@@ -51,9 +51,9 @@ public class Post implements Serializable
 	@Column(name = "url", length = 255)
 	private String url;
 
-	@Lob
-	@Type(type = "org.hibernate.type.TextType")
-	@Column(name = "content", nullable = false, columnDefinition = "TEXT")
+	//@Lob
+	//@Type(type = "org.hibernate.type.TextType")
+	@Column(name = "content", nullable = false, columnDefinition = "text")
 	@NotEmpty
 	private String content;
 
