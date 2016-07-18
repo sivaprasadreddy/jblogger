@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="admin/adminLayout">
+<head>
+<title>Tags</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+		<table class="table table-striped table-hover ">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Label</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="tag,iterStat : ${tags}">
+					<td th:text="${iterStat.count}">1</td>
+					<td th:text="${tag.label}">label</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>

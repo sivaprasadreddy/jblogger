@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="admin/adminLayout">
+<head>
+<title>DashBoard</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+		<div class="row">
+		<div class="col-md-6">
+			<h3>Overview</h3>
+			<ul class="list-group">
+				<li class="list-group-item"><span class="badge" th:text="${overview.postsCount}">14</span> Total	Posts</li>
+				<li class="list-group-item"><span class="badge" th:text="${overview.commentsCount}">2</span> Total Comments</li>
+				<li class="list-group-item"><span class="badge" th:text="${overview.todayViewCount}">1000</span> Today PageViews</li>
+				<li class="list-group-item"><span class="badge" th:text="${overview.yesterdayViewCount}">1000</span> Yesterday PageViews</li>
+				<li class="list-group-item"><span class="badge" th:text="${overview.thisWeekViewCount}">1000</span> This Week PageViews</li>
+				<li class="list-group-item"><span class="badge" th:text="${overview.thisMonthViewCount}">1000</span> This Month PageViews</li>
+				<li class="list-group-item"><span class="badge" th:text="${overview.alltimeViewCount}">1000</span> All Time PageViews</li>
+			</ul>
+		</div>
+		</div>
+		
+		<div class="row">
+			<form id="form1" class="col-md-8" th:action="@{/admin/dashboard}" method="get">
+				<input type="hidden" name="timePeriod" value="TODAY"/>
+				<input class="btn btn-primary btn-xs" type="button" value="Today" onclick="go('TODAY');"/>
+			
+				<input class="btn btn-primary btn-xs" type="button" value="Yesterday" onclick="go('YESTERDAY');"/>
+			
+				<input class="btn btn-primary btn-xs" type="button" value="Week" onclick="go('WEEK');"/>
+			
+				<input class="btn btn-primary btn-xs" type="button" value="Month" onclick="go('MONTH');"/>
+			
+				<input class="btn btn-primary btn-xs" type="button" value="All Time" onclick="go('ALL_TIME');"/>
+			</form>
+		</div>
+		<div class="row">
+			
+			<table class="table table-striped table-hover ">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Title</th>
+					<th>Views</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="entry,iterStat : ${overview.getPostViewCountMap()}">
+					<td th:text="${iterStat.count}">1</td>
+					<td><a th:text="${entry.key.title}" th:href="@{'/posts/'+${entry.key.url}}" target="_blank">title</a> </td>
+					<td th:text="${entry.value}">10</td>
+				</tr>
+			</tbody>
+		</table>
+		
+			
+		</div>
+	</div>
+	
+	<div layout:fragment="pageLevelScript">
+    	<script>
+			$(document).ready(function(){ 
+									
+			});
+			
+			function go(timePeriod)
+			{
+				$("input[name='timePeriod']").val(timePeriod);
+				$('#form1').submit();
+			}
+			
+	    </script>
+    </div>
+    
+</body>
+</html>

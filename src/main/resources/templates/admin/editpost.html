@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="admin/adminLayout">
+<head>
+<title>Home</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+		<div>
+			<p class="lead">Edit Post</p>
+			<form role="form" method="post" th:action="@{/admin/posts/{postId}(postId=${post.id})}" th:object="${post}">
+				<input type="hidden" class="form-control" th:field="*{id}"/>
+				<input type="hidden" class="form-control" th:field="*{url}"/>
+				<div class="form-group" th:classappend="${#fields.hasErrors('title')}? has-error">
+					<label for="title">Title</label>
+					<input type="text" class="form-control" id="title" placeholder="Enter Title" name="title"  th:field="*{title}"/>
+				</div>
+				<div class="form-group" th:classappend="${#fields.hasErrors('shortDescription')}? has-error">
+					<label for="shortDescription">Short Description</label>
+					<textarea class="form-control" id="shortDescription" placeholder="Enter short Description here" 
+								rows="3" name="shortDescription" th:field="*{shortDescription}"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="tags">Tags</label>
+					<select class="form-control" id="post-tags" multiple="multiple" name="tagsList">
+					</select>
+					
+				</div>
+				<div class="form-group" th:classappend="${#fields.hasErrors('content')}? has-error">
+					<label for="title">Content</label>
+					<textarea class="form-control" id="content" placeholder="Enter content here" rows="15"  
+								name="content" th:field="*{content}"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+		<br/>		
+    </div>
+    
+    <div layout:fragment="pageLevelScript">
+    	<script th:inline="javascript">
+	    	/*<![CDATA[*/	
+	    	    var tagslist = [[${#strings.listJoin(post.getTagsAsStringArray(),',')}]];
+	    	    //console.log(tagslist);	
+	    	/*]]>*/
+    	</script>
+			    	
+    	<script>
+			$(document).ready(function(){ $("#content").cleditor(); });
+			
+			$.ajax({
+			    url:   "/admin/tagsJson",			   
+			    method: 'get',
+			    success: function(resp){
+			    	
+			    	var data = $.map(resp, function (obj) {
+			    		  obj.text = obj.text || obj.label;
+			    		  return obj;
+			    		});
+			    	
+			    	$('#post-tags').select2({
+			    		placeholder: "Select tags",
+						allowClear: true,
+						data: data,
+						maximumSelectionLength: 5,
+						tags: true,
+						tokenSeparators: [',', ' ']
+					});
+			    	
+			    	$('#post-tags').val(tagslist.split(','));			    	
+			    	$('#post-tags').trigger('change');
+			    }
+			});
+			
+	    </script>
+    </div>
+    
+</body>
+</html>

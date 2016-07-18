@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE"  th:text="#{app.title}">JBlogger</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    
+    <link rel="stylesheet" th:href="@{/assets/libs/bootstrap/css/yeti-bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/css/styles.css}"/>
+    
+    <link th:href="@{/assets/libs/syntaxhighlighter_3.0.83/styles/shCore.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/assets/libs/syntaxhighlighter_3.0.83/styles/shThemeDefault.css}" rel="stylesheet" type="text/css" />
+
+  </head>
+  
+  <body>
+  	
+  	<div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="#" th:href="@{/}" class="navbar-brand" th:text="#{app.title}">ProjectName</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          
+          <ul class="nav navbar-nav navbar-right">
+            <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/logout}">Logout</a></li>
+            <li sec:authorize="!hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/login}">Login</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+				<div layout:fragment="content">
+		        	<!-- Your Page Content Here -->
+		  		</div>
+			</div>
+		</div>
+		
+	</div>
+  	
+	<footer class="footer">
+		<div class="container">
+	      <p class="text-center">SivaLabs &copy; 2016</p>
+		</div>
+    </footer>
+    
+    <script th:src="@{'/assets/libs/jquery/jquery-1.10.2.min.js'}"></script>
+    <script th:src="@{'/assets/libs/bootstrap/js/bootstrap.min.js'}"></script>
+    
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shCore.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushJava.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushXml.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushSql.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushCss.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushGroovy.js'}"></script>
+   
+    <script type="text/javascript">
+	     SyntaxHighlighter.all()
+	</script>
+  </body>
+</html>

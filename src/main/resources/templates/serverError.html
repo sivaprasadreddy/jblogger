@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="guestLayout">
+<head>
+<title>ServerError</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+		<h2>There is some problem in processing your request <i class="fa fa-frown-o fa-lg"></i></h2>
+		<p>Click <a href="#" th:href="@{/}">Home</a> to go to Home page</p>
+	</div>
+
+</body>
+</html>

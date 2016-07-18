@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE"  th:text="#{app.title}">JBlogger</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    
+    <link rel="stylesheet" th:href="@{/assets/libs/bootstrap/css/yeti-bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/libs/CLEditor1_4_5/jquery.cleditor.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/libs/font-awesome-4.5.0/css/font-awesome.min.css}"/>
+    
+    <link rel="stylesheet" th:href="@{/assets/libs/select2-4.0.2/css/select2.min.css}" />
+    
+    
+    <link th:href="@{/assets/libs/syntaxhighlighter_3.0.83/styles/shCore.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/assets/libs/syntaxhighlighter_3.0.83/styles/shThemeDefault.css}" rel="stylesheet" type="text/css" />
+    
+    <link rel="stylesheet" th:href="@{/assets/css/admin.css}"/>
+    
+  </head>
+  
+  <body>
+    
+  	<div class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="#" th:href="@{/}" class="navbar-brand" th:text="#{app.title}">ProjectName</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+            
+            <li>
+              <a href="#" th:href="@{/}">Back To Blog</a>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li th:if="(not ${#authentication}) or (not ${#authorization.expression('isAuthenticated()')})"><a href="#" th:href="@{/login}">Login</a></li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/admin/posts/newpost}">New Post</a></li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/admin/dashboard}">DashBoard</a></li>
+            <li th:if="${#authentication} and ${#authorization.expression('isAuthenticated()')}"><a href="#" th:href="@{/logout}">Logout</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel">
+		            <div class="list-group table-of-contents">
+		              	<a class="list-group-item" href="#" th:href="@{/admin/dashboard}">Overview</a>
+		              	<a class="list-group-item" href="#" th:href="@{/admin/posts/newpost}">New Post</a>
+		              	<a class="list-group-item" href="#" th:href="@{/admin/posts}">Posts</a>
+		              	<a class="list-group-item" href="#" th:href="@{/admin/comments}">Comments</a>
+		              	<a class="list-group-item" href="#" th:href="@{/admin/tags}">Tags</a>
+		            </div>
+	            </div>
+			</div>	
+			<div class="col-md-9">
+				<div layout:fragment="content">
+		        	<!-- Your Page Content Here -->
+		  		</div>
+			</div>
+		</div>
+		
+	</div>
+  	
+	<footer class="footer">
+		<div class="container">
+	      <p class="text-center">SivaLabs &copy; 2016</p>
+		</div>
+
+    </footer>
+    
+    <script th:src="@{'/assets/libs/jquery/jquery-1.10.2.min.js'}"></script>
+    <script th:src="@{'/assets/libs/bootstrap/js/bootstrap.min.js'}"></script>
+    <script th:src="@{'/assets/libs/CLEditor1_4_5/jquery.cleditor.min.js'}"></script>
+
+	<script th:src="@{'/assets/libs/select2-4.0.2/js/select2.min.js'}"></script>
+
+ 	<script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shCore.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushJava.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushXml.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushSql.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushCss.js'}"></script>
+    <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushGroovy.js'}"></script>
+    
+    <script th:src="@{'/assets/js/admin.js'}"></script>
+    
+    <script type="text/javascript">
+	     SyntaxHighlighter.all()
+	</script>
+	
+    <!-- <script th:src="@{'/assets/dist/js/app.min.js'}"></script> -->
+    <div layout:fragment="pageLevelScript">
+    
+    </div>
+  </body>
+</html>

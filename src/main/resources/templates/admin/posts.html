@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorator="admin/adminLayout">
+<head>
+<title>Posts</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+		<table class="table table-striped table-hover ">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Title</th>
+					<th>Comments</th>
+					<th>Views</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="post,iterStat : ${posts}">
+					<td th:text="${iterStat.count}">1</td>
+					<td>
+						<a th:text="${post.title}" th:href="@{'/posts/'+${post.url}}" target="_blank">title</a><br/> <br/> 
+						<div>
+							<a href="#" th:href="@{/admin/posts/{postId}/edit(postId=${post.id})}">Edit</a>
+							&nbsp;&nbsp;
+							<span>
+								<a href="#" th:onclick="'javascript:deletePost(\''+ ${post.id} +'\');'" >Delete</a>
+							</span>
+						</div>
+						<div class="social-share">
+							<strong>Share on</strong>
+							<a class="btn" th:href="${T(com.sivalabs.jblogger.core.web.WebUtils).getTwitterShareLink(#httpServletRequest, post)}" 
+										target="_blank" title="Share on Twitter"><i class="fa fa-twitter" aria-hidden="true"></i>Twitter</a>
+							<a class="btn" th:href="${T(com.sivalabs.jblogger.core.web.WebUtils).getFacebookShareLink(#httpServletRequest, post)}" 
+										target="_blank" title="Share on Facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i>Facebook</a>
+							<a class="btn" th:href="${T(com.sivalabs.jblogger.core.web.WebUtils).getLinkedInShareLink(#httpServletRequest, post)}" 
+										target="_blank" title="Share on LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+						</div>
+					</td>
+					<td th:text="${post.comments.size()}">10</td>
+					<td th:text="${post.viewCount}">10</td>
+					<td th:text="${#calendars.format(post.createdOn,'dd MMM yyyy')}">10-10-2015</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>
