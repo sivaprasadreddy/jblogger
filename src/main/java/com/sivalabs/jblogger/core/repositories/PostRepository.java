@@ -10,11 +10,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.sivalabs.jblogger.core.entities.Post;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author Siva
  * 
  */
+@Repository
 public interface PostRepository extends JpaRepository<Post, Integer>
 {
 	@Query("SELECT p FROM Post p INNER JOIN p.tags t WHERE t.label= :tag")

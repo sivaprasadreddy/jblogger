@@ -27,6 +27,6 @@ docker run -d --name jblogger --link demo-mysql:mysql -p 8080:8080 sivaprasadred
 
 ### Running MySQL and Application using docker-compose
 
-Navigate to the directory where docker-compose.yml file is there.
+Navigate to the directory where **docker-compose.yml** file is there.
 
 src/main/docker> docker-compose up

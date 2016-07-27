@@ -30,12 +30,6 @@ public class AuthenticatedUser extends org.springframework.security.core.userdet
 		this.user = user;
 	}
 	
-	@Override
-	public boolean equals(Object rhs)
-	{
-		return super.equals(rhs);
-	}
-	
 	public User getUser()
 	{
 		return user;

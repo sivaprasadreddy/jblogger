@@ -13,7 +13,7 @@ import com.sivalabs.jblogger.core.entities.Post;
  */
 public interface BlogSearch {
 
-	public void index(List<Post> posts);
-	public List<Post> search(String query);
+	void index(List<Post> posts);
+	List<Post> search(String query);
 	
 }
