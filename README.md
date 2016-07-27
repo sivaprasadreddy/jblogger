@@ -1,13 +1,11 @@
 # jblogger
 A blogging application using SpringBoot.
 
-Running on Heroku https://sivalabs-jblogger.herokuapp.com/posts
+Running on Heroku https://sivalabs-jblogger.herokuapp.com/
 
 Build Status
 
 [![Build Status](https://travis-ci.org/sivaprasadreddy/jblogger.svg?branch=master)](https://travis-ci.org/sivaprasadreddy/jblogger)
-
-
 
 ## Running on Docker container
 
@@ -18,11 +16,11 @@ jblogger> mvn clean package docker:build
 ### Running MySQL and Application containers individually
 
 
-*Run mysql :*
+__Run mysql :__
 
 docker run -d --name demo-mysql -e MYSQL_ROOT_PASSWORD=secret123 -e MYSQL_DATABASE=demo -e MYSQL_USER=dbuser -e MYSQL_PASSWORD=secret mysql:latest
 
-*Run application linking to demo-mysql container:*
+__Run application linking to demo-mysql container:__
 
 docker run -d --name jblogger --link demo-mysql:mysql -p 8080:8080 sivaprasadreddy/jblogger
 
