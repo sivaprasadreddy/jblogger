@@ -1,4 +1,4 @@
-# jblogger
+# JBlogger
 A blogging application using SpringBoot.
 
 Running on Heroku https://sivalabs-jblogger.herokuapp.com/
