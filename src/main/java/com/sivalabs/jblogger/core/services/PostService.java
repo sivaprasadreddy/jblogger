@@ -20,7 +20,6 @@ import com.sivalabs.jblogger.core.entities.Post;
 import com.sivalabs.jblogger.core.repositories.CommentRepository;
 import com.sivalabs.jblogger.core.repositories.PageViewRepository;
 import com.sivalabs.jblogger.core.repositories.PostRepository;
-import com.sivalabs.jblogger.search.BlogSearch;
 
 /**
  * @author Siva
@@ -30,7 +29,6 @@ import com.sivalabs.jblogger.search.BlogSearch;
 @Transactional
 public class PostService 
 {
-	@Autowired private BlogSearch blogSearch;
 	@Autowired private PostRepository postRepository;
 	@Autowired private CommentRepository commentRepository;
 	@Autowired private PageViewRepository pageViewRepository;
@@ -99,7 +97,7 @@ public class PostService
 	}
 
 	public List<Post> searchPosts(String query) {
-		return blogSearch.search(query);
+		return postRepository.searchPosts("%"+query+"%");
 	}
 
 	public void updateViewCount(Integer postId, Long viewCount) {
