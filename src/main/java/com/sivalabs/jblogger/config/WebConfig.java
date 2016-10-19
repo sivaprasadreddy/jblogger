@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-import com.sivalabs.jblogger.core.web.WebRequestLogger;
+import com.sivalabs.jblogger.web.WebRequestLogger;
 
 import net.bull.javamelody.MonitoringFilter;
 import net.bull.javamelody.SessionListener;

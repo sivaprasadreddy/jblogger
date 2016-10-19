@@ -47,11 +47,11 @@
 			
 			<div class="social-share">
 				<strong>Share on</strong>
-				<a class="btn" th:href="${T(com.sivalabs.jblogger.core.web.WebUtils).getTwitterShareLink(#httpServletRequest, post)}" 
+				<a class="btn" th:href="${T(com.sivalabs.jblogger.web.WebUtils).getTwitterShareLink(#httpServletRequest, post)}" 
 							target="_blank" title="Share on Twitter"><i class="fa fa-twitter" aria-hidden="true"></i>Twitter</a>
-				<a class="btn" th:href="${T(com.sivalabs.jblogger.core.web.WebUtils).getFacebookShareLink(#httpServletRequest, post)}" 
+				<a class="btn" th:href="${T(com.sivalabs.jblogger.web.WebUtils).getFacebookShareLink(#httpServletRequest, post)}" 
 							target="_blank" title="Share on Facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i>Facebook</a>
-				<a class="btn" th:href="${T(com.sivalabs.jblogger.core.web.WebUtils).getLinkedInShareLink(#httpServletRequest, post)}" 
+				<a class="btn" th:href="${T(com.sivalabs.jblogger.web.WebUtils).getLinkedInShareLink(#httpServletRequest, post)}" 
 							target="_blank" title="Share on LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
 			</div>
 			</div>

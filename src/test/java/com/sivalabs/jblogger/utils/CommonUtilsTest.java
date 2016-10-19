@@ -9,7 +9,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import com.sivalabs.jblogger.core.utils.CommonUtils;
+import com.sivalabs.jblogger.utils.CommonUtils;
 
 /**
  * @author Siva

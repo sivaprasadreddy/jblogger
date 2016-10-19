@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sivalabs.jblogger.core.entities.PageView;
-import com.sivalabs.jblogger.core.entities.Post;
+import com.sivalabs.jblogger.entities.PageView;
+import com.sivalabs.jblogger.entities.Post;
 
 /**
  * @author Siva

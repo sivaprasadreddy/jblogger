@@ -11,8 +11,8 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
-import com.sivalabs.jblogger.core.entities.Role;
-import com.sivalabs.jblogger.core.entities.User;
+import com.sivalabs.jblogger.entities.Role;
+import com.sivalabs.jblogger.entities.User;
 
 /**
  * @author Siva

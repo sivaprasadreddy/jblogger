@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sivalabs.jblogger.core.entities.User;
-import com.sivalabs.jblogger.core.services.UserService;
+import com.sivalabs.jblogger.entities.User;
+import com.sivalabs.jblogger.services.UserService;
 
 /**
  * @author Siva
