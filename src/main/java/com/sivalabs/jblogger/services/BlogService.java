@@ -7,15 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sivalabs.jblogger.domain.BlogOverview;
 import com.sivalabs.jblogger.domain.TimePeriod;
-import com.sivalabs.jblogger.entities.Blog;
 import com.sivalabs.jblogger.entities.PageView;
-import com.sivalabs.jblogger.repositories.BlogRepository;
 import com.sivalabs.jblogger.repositories.CommentRepository;
 import com.sivalabs.jblogger.repositories.PageViewRepository;
 import com.sivalabs.jblogger.repositories.PostRepository;
@@ -29,16 +26,9 @@ import com.sivalabs.jblogger.utils.CommonUtils;
 @Transactional
 public class BlogService 
 {
-	@Autowired private BlogRepository blogRepository;
 	@Autowired private PostRepository postRepository;
 	@Autowired private CommentRepository commentRepository;
 	@Autowired private PageViewRepository pageViewRepository;
-	
-	@Cacheable("blogs")
-	public Blog findBlogById(int id)
-	{
-		return blogRepository.findOne(id);
-	}
 
 	public BlogOverview getBlogOverView(TimePeriod timePeriod)
 	{

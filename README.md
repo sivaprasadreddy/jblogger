@@ -1,5 +1,13 @@
 # JBlogger
-A blogging application using SpringBoot.
+A simple blog application using SpringBoot.
+
+Run the application using run-app.bat or run-app.sh
+
+Access Application: http://localhost:8080/
+
+Monitoring Dashboard using JavaMelody : http://localhost:8080/monitoring
+
+Login with admin@gmail.com/admin
 
 Running on Heroku https://sivalabs-jblogger.herokuapp.com/
 

@@ -6,15 +6,14 @@ delete from posts;
 delete from user_role;
 delete from roles;
 delete from users;
-delete from blog;
-
-insert into blog(id,name,description, welcome_note) values(1,'JBlogger','My Experiment on Technology','Hi, This is Siva. I started this blog just to note down some points to refer later if required, just for Myself. This blog may contain very simple, stupid things which matters to me. Accidentally this blog may help the viewers, but no guarantee :-)');
 
 insert into tags(id, label) values(1,'Java');
 insert into tags(id, label) values(2,'JavaEE');
 insert into tags(id, label) values(3,'Spring');
 insert into tags(id, label) values(4,'Hibernate');
 insert into tags(id, label) values(5,'JavaScript');
+insert into tags(id, label) values(6,'Linux');
+
 
 insert into roles(id, name, description) values(1,'ROLE_ADMIN','ROLE Administrator');
 insert into roles(id, name, description) values(2,'ROLE_USER','ROLE User');
@@ -37,11 +36,17 @@ insert into posts(id, title, url, short_desc,content, created_by, created_on, up
 insert into posts(id, title, url, short_desc,content, created_by, created_on, updated_on) values(8,'Packt Publishing "Java Persistence With MyBatis3" published','packt-publishing-java-persistence-with-mybatis3-published','Hurray...My first book "Java Persistence with MyBatis3" is published. I would like to thank Packt Publishers for giving me this opportunity to write on my favorite framework MyBatis.','Hurray...My first book "Java Persistence with MyBatis3" is published. I would like to thank Packt Publishers for giving me this opportunity to write on my favorite framework MyBatis.',2, '2014-02-20', null);
 insert into posts(id, title, url, short_desc,content, created_by, created_on, updated_on) values(9,'Deploying BroadleafCommerce 2.0 on JBoss AS 7','deploying-broadleafcommerce-20-on-jbossas7','First 2 steps are not really related to Broadleaf specific, but mentioned to make it easy to follow(copy/paste) the steps.','First 2 steps are not really related to Broadleaf specific, but mentioned to make it easy to follow(copy/paste) the steps. Step#1: Configure DataSources in JBoss AS.',2, '2014-01-20', now());
 
-insert into post_tag(post_id,tag_id) values(1,1);
-insert into post_tag(post_id,tag_id) values(1,2);
-insert into post_tag(post_id,tag_id) values(2,2);
-insert into post_tag(post_id,tag_id) values(3,4);
-insert into post_tag(post_id,tag_id) values(3,5);
+insert into post_tag(post_id,tag_id) values(1,6);
+insert into post_tag(post_id,tag_id) values(2,1);
+insert into post_tag(post_id,tag_id) values(2,3);
+insert into post_tag(post_id,tag_id) values(3,3);
+insert into post_tag(post_id,tag_id) values(4,3);
+insert into post_tag(post_id,tag_id) values(5,1);
+insert into post_tag(post_id,tag_id) values(6,1);
+insert into post_tag(post_id,tag_id) values(7,2);
+insert into post_tag(post_id,tag_id) values(8,1);
+insert into post_tag(post_id,tag_id) values(9,1);
+
 
 insert into comments(id, post_id, email, name, content, created_on, updated_on) values(1, 1, 'guest@gmail.com', 'Guest','sample comment 1', now(), null);
 insert into comments(id, post_id, email, name, content, created_on, updated_on) values(2, 2, 'test@gmail.com', 'Test','sample comment 2', now(), null);

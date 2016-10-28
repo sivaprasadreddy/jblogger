@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sivalabs.jblogger.web.site.controllers;
+package com.sivalabs.jblogger.web.controllers;
 
 import java.io.IOException;
 import java.util.Date;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sivalabs.jblogger.JBloggerConstants;
+import com.sivalabs.jblogger.config.JBloggerSettings;
 import com.sivalabs.jblogger.entities.Comment;
 import com.sivalabs.jblogger.entities.PageView;
 import com.sivalabs.jblogger.entities.Post;
@@ -42,11 +42,14 @@ public class BlogController extends BaseController
 	@Autowired
 	private PostService postService;
 	
+	@Autowired
+	private JBloggerSettings jbloggerSettings;
+	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String viewPosts(@RequestParam(value="page", defaultValue="0") Integer page, 
 							Model model) {
 		
-		PageRequest pageRequest = new PageRequest((page < 0 ) ? 0 : page , JBloggerConstants.POSTS_PER_PAGE);
+		PageRequest pageRequest = new PageRequest((page < 0 ) ? 0 : page , jbloggerSettings.getPostsPerPage());
 		Page<Post> postsResponse = postService.findPosts(pageRequest);
 		model.addAttribute("postsResponse",postsResponse);
 		model.addAttribute("paginationRootUrl","posts");
@@ -66,7 +69,7 @@ public class BlogController extends BaseController
 	public String viewPostsByTag(@PathVariable("tag")String tag, 
 								@RequestParam(value="page", defaultValue="0") Integer page, 
 								Model model) {
-		PageRequest pageRequest = new PageRequest((page < 0 ) ? 0 : page, JBloggerConstants.POSTS_PER_PAGE);
+		PageRequest pageRequest = new PageRequest((page < 0 ) ? 0 : page, jbloggerSettings.getPostsPerPage());
 		Page<Post> postsResponse = postService.findPostsByTag(tag, pageRequest);
 		model.addAttribute("postsResponse",postsResponse);
 		model.addAttribute("paginationRootUrl","posts/tags/"+tag);

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sivalabs.jblogger.web.admin.controllers;
+package com.sivalabs.jblogger.web.controllers;
 
 import java.util.Date;
 import java.util.HashSet;

@@ -54,16 +54,19 @@
                 <li class="next" th:if="${postsResponse.hasNext()}">
                     <a th:href="@{'/'+${paginationRootUrl+'?page='+(postsResponse.number + 1) }}">Newer &rarr;</a>
                 </li>
+                <!-- 
                 <li class="next disabled" th:if="${!postsResponse.hasNext()}">
                     <a href="javascript:void(0);">Newer &rarr;</a>
                 </li>
-
+				 -->
                 <li class="previous" th:if="${postsResponse.hasPrevious()}">
                     <a th:href="@{'/'+${paginationRootUrl+'?page='+(postsResponse.number - 1) }}">&larr; Older</a>
                 </li>
+                <!-- 
                 <li class="previous disabled" th:if="${! postsResponse.hasPrevious()}">
                     <a href="javascript:void(0);">&larr; Older</a>
-                </li>
+                </li> 
+                -->
         </ul>
         
     </div>

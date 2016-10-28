@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sivalabs.jblogger.web.site.controllers;
+package com.sivalabs.jblogger.web.controllers;
 
 import java.util.Map;
 
@@ -13,7 +13,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.sivalabs.jblogger.entities.Blog;
 import com.sivalabs.jblogger.entities.Tag;
 import com.sivalabs.jblogger.security.AuthenticatedUser;
 import com.sivalabs.jblogger.security.SecurityUtils;
@@ -67,9 +66,5 @@ public abstract class BaseController
 	public Map<Tag, Integer> tagPostsCountMap() {
 	    return tagService.getTagsWithCount();
 	}
-	
-	@ModelAttribute("blogInfo")
-	public Blog blogInfo() {
-		return this.blogService.findBlogById(1);
-	}
+
 }

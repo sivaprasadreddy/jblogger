@@ -18,3 +18,4 @@ build
 .gradle
 .idea
 *.iml
+/.apt_generated/
