@@ -11,9 +11,12 @@ Login with admin@gmail.com/admin
 
 Running on Heroku https://sivalabs-jblogger.herokuapp.com/
 
-Build Status
+## Build Status
 
 [![Build Status](https://travis-ci.org/sivaprasadreddy/jblogger.svg?branch=master)](https://travis-ci.org/sivaprasadreddy/jblogger)
+
+[![Build Status](https://snap-ci.com/sivaprasadreddy/jblogger/branch/master/build_image)](https://snap-ci.com/sivaprasadreddy/jblogger/branch/master)
+
 
 ## Running on Docker container
 
