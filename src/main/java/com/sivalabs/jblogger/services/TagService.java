@@ -32,6 +32,10 @@ public class TagService
 		return tagRepository.findByLabelLike(query+"%");
 	}
 	
+	public Tag findById(Integer id){
+		return tagRepository.findById(id).orElse(null);
+	}
+
 	@Cacheable(value = "tags.item")
 	public Tag findByLabel(String label){
 		return tagRepository.findByLabel(label.trim());
@@ -67,7 +71,5 @@ public class TagService
 		
 		return map;
 	}
-	
-	
-	
+
 }

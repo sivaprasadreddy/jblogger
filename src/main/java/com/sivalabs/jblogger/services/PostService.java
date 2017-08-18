@@ -1,9 +1,7 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,7 +48,7 @@ public class PostService
 		if(pageSize < 1) {
 			pageSize = 5;
 		}
-		Pageable pageable = new PageRequest(pageNo, pageSize, sort);
+		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		Page<Post> pageData = postRepository.findAll(pageable);
 		
 		return pageData;
@@ -67,14 +65,14 @@ public class PostService
 		if(pageSize < 1) {
 			pageSize = 5;
 		}
-		Pageable pageable = new PageRequest(pageNo, pageSize, sort);
+		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		Page<Post> pageData = postRepository.findByTags(tag, pageable);
 		
 		return pageData;
 	}
 	
-	public Post findPostById(int postId) {
-		return postRepository.findOne(postId);
+	public Optional<Post> findPostById(int postId) {
+		return postRepository.findById(postId);
 	}
 	
 	public Post findPostByUrl(String url)
@@ -93,11 +91,11 @@ public class PostService
 	
 	public void deletePost(Integer postId)
 	{
-		postRepository.delete(postId);
+		postRepository.deleteById(postId);
 	}
 
 	public List<Post> searchPosts(String query) {
-		return postRepository.searchPosts("%"+query+"%");
+		return postRepository.searchPosts("%"+query.toLowerCase()+"%");
 	}
 
 	public void updateViewCount(Integer postId, Long viewCount) {
@@ -130,7 +128,7 @@ public class PostService
 		if(pageSize < 1) {
 			pageSize = 5;
 		}
-		Pageable pageable = new PageRequest(pageNo, pageSize, sort);
+		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		Page<Comment> pageData = commentRepository.findAll(pageable);
 		
 		return pageData;
@@ -138,7 +136,7 @@ public class PostService
 
 	public void deleteComment(Integer commentId)
 	{
-		commentRepository.delete(commentId);
+		commentRepository.deleteById(commentId);
 	}
 
 }

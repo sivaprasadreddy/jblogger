@@ -1,9 +1,7 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +25,8 @@ public class RoleService
 		return roleRepository.findAll();
 	}
 	
-	public Role getRoleById(Integer id) {
-		return roleRepository.findOne(id);
+	public Optional<Role> getRoleById(Integer id) {
+		return roleRepository.findById(id);
 	}
 	
 	public Role getRoleByName(String roleName)
@@ -48,14 +46,12 @@ public class RoleService
 	
 	public Role updateRole(Role role)
 	{
-		Role persistedRole = getRoleById(role.getId());
+		Role persistedRole = getRoleById(role.getId()).get();
 		if(persistedRole == null){
 			throw new JBloggerException("Role "+role.getId()+" doesn't exist");
 		}
 		persistedRole.setDescription(role.getDescription());
 		return roleRepository.save(persistedRole);
 	}
-	
-	
 
 }

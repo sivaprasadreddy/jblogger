@@ -1,21 +1,11 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.entities;
 
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Objects;
+import lombok.Data;
 
 /**
  * @author Siva
@@ -23,6 +13,7 @@ import com.google.common.base.Objects;
  */
 @Entity
 @Table(name = "TAGS")
+@Data
 public class Tag implements Serializable, Comparable<Tag>
 {
 	private static final long serialVersionUID = 1L;
@@ -37,52 +28,6 @@ public class Tag implements Serializable, Comparable<Tag>
 	@JsonIgnore
 	@ManyToMany(mappedBy="tags")
 	private List<Post> posts;
-
-	@Override
-	public int hashCode(){
-	    return Objects.hashCode(id, label);
-	}
-
-	@Override
-	public boolean equals(final Object obj){
-	    if(obj instanceof Tag){
-	        final Tag other = (Tag) obj;
-	        return Objects.equal(label, other.label)
-		            && id == other.id;
-	    } else{
-	        return false;
-	    }
-	}
-	
-	public Integer getId()
-	{
-		return id;
-	}
-
-	public void setId(Integer id)
-	{
-		this.id = id;
-	}
-
-	public String getLabel()
-	{
-		return label;
-	}
-
-	public void setLabel(String label)
-	{
-		this.label = label;
-	}
-
-	public List<Post> getPosts()
-	{
-		return posts;
-	}
-
-	public void setPosts(List<Post> posts)
-	{
-		this.posts = posts;
-	}
 
 	@Override
 	public int compareTo(Tag other)

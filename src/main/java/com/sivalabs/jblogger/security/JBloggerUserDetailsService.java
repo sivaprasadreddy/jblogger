@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +23,7 @@ public class JBloggerUserDetailsService implements UserDetailsService
 	private UserService userService;
 	
 	@Override
-	public UserDetails loadUserByUsername(String userName)
-			throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		User user = userService.findUserByEmail(userName);
 		if(user == null){
 			throw new UsernameNotFoundException("Email "+userName+" not found");

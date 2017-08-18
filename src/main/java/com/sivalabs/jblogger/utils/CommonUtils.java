@@ -15,9 +15,6 @@ import org.apache.commons.lang3.time.DateUtils;
  */
 public class CommonUtils
 {
-	private CommonUtils()
-	{
-	}
 	
 	public static Date getEndOfDay(Date date) {
 	    return DateUtils.addMilliseconds(DateUtils.ceiling(date, Calendar.DATE), -1);

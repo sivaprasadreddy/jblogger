@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
   <head>
     <meta charset="utf-8"/>
@@ -33,10 +35,10 @@
         <div class="navbar-collapse collapse" id="navbar-main">
 
           <ul class="nav navbar-nav navbar-right">
-            <li th:if="(not ${#authentication}) or (not ${#authorization.expression('isAuthenticated()')})"><a href="#" th:href="@{/login}">Login</a></li>
+            <li sec:authorize="isAnonymous()"><a href="#" th:href="@{/login}">Login</a></li>
             <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/admin/posts/newpost}">New Post</a></li>
             <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/admin/dashboard}">DashBoard</a></li>
-            <li th:if="${#authentication} and ${#authorization.expression('isAuthenticated()')}"><a href="#" th:href="@{/logout}">Logout</a></li>
+            <li sec:authorize="isAuthenticated()"><a href="#" th:href="@{/logout}">Logout</a></li>
           </ul>
 
         </div>
@@ -86,7 +88,7 @@
   	
 	<footer class="footer">
 		<div class="container">
-	      <p class="text-center">SivaLabs &copy; 2016</p>
+	      <p class="text-center">SivaLabs &copy; 2017</p>
 		</div>
 
     </footer>

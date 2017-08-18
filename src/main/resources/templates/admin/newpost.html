@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	layout:decorator="admin/adminLayout">
 <head>
@@ -22,14 +23,8 @@
 								rows="3" name="shortDescription" th:field="*{shortDescription}"></textarea>
 				</div>
 				<div class="form-group">
-					<label for="tags">Tags</label>
-					<!-- <input type="text" class="form-control" id="tags" placeholder="Enter Tags separatedby commas" name="tagsList"/> -->
+					<label for="post-tags">Tags</label>
 					<select class="form-control" id="post-tags" multiple="multiple" name="tagsList">
-					  <!-- <option value="java">Java</option>
-					  <option value="spring">Spring</option>
-					  <option value="springsecurity">SpringSecurity</option>
-					  <option value="springdata">SpringData</option>
-					  <option value="javaee">JavaEE</option> -->
 					</select>
 
 				</div>

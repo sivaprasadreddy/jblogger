@@ -1,8 +1,6 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.services;
 
+import com.sivalabs.jblogger.config.JBloggerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +8,6 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
-
-import com.sivalabs.jblogger.config.JBloggerSettings;
 
 /**
  * @author Siva
@@ -23,7 +19,7 @@ public class EmailService
 	private Logger logger = LoggerFactory.getLogger(EmailService.class);
 	
 	@Autowired
-	private JBloggerSettings jbloggerSettings;
+	private JBloggerConfig jBloggerConfig;
 	
 
 	@Autowired 
@@ -32,7 +28,7 @@ public class EmailService
     
 	public void send(String subject, String content)
 	{
-		String supportEmail = jbloggerSettings.getSupportEmail();
+		String supportEmail = jBloggerConfig.getSupportEmail();
 		
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(supportEmail);

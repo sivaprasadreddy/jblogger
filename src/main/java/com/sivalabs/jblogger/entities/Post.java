@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.entities;
 
 import java.io.Serializable;
@@ -9,24 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
+import javax.persistence.*;
+import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.google.common.base.Objects;
 
 /**
  * @author Siva
@@ -34,6 +17,7 @@ import com.google.common.base.Objects;
  */
 @Entity
 @Table(name = "POSTS")
+@Data
 public class Post implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -84,131 +68,17 @@ public class Post implements Serializable
 	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
 	private List<Comment> comments = new ArrayList<>();
 
-	@Override
-	public int hashCode(){
-	    return Objects.hashCode(id);
-	}
-
-	@Override
-	public boolean equals(final Object obj){
-	    if(obj instanceof Post){
-	        final Post other = (Post) obj;
-	        return id == other.id;
-	    } else{
-	        return false;
-	    }
-	}
-
-	public Integer getId()
+	public String getTagIdsAsString()
 	{
-		return id;
+		if(tags == null || tags.isEmpty()) return "";
+
+		StringBuilder sb = new StringBuilder();
+		for (Tag tag : tags) {
+			sb.append(","+tag.getId());
+		}
+		return sb.substring(1);
 	}
 
-	public void setId(Integer id)
-	{
-		this.id = id;
-	}
-
-	public String getTitle()
-	{
-		return title;
-	}
-
-	public void setTitle(String title)
-	{
-		this.title = title;
-	}
-
-	public String getUrl()
-	{
-		return url;
-	}
-
-	public void setUrl(String url)
-	{
-		this.url = url;
-	}
-
-	public String getContent()
-	{
-		return content;
-	}
-
-	public void setContent(String content)
-	{
-		this.content = content;
-	}
-
-	public User getCreatedBy()
-	{
-		return createdBy;
-	}
-
-	public void setCreatedBy(User createdBy)
-	{
-		this.createdBy = createdBy;
-	}
-
-	public Date getCreatedOn()
-	{
-		return createdOn;
-	}
-
-	public void setCreatedOn(Date createdOn)
-	{
-		this.createdOn = createdOn;
-	}
-
-	public Date getUpdatedOn()
-	{
-		return updatedOn;
-	}
-
-	public void setUpdatedOn(Date updatedOn)
-	{
-		this.updatedOn = updatedOn;
-	}
-
-	public List<Comment> getComments()
-	{
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments)
-	{
-		this.comments = comments;
-	}
-
-	public String getShortDescription()
-	{
-		return shortDescription;
-	}
-
-	public void setShortDescription(String shortDescription)
-	{
-		this.shortDescription = shortDescription;
-	}
-
-	public Long getViewCount()
-	{
-		return viewCount;
-	}
-
-	public void setViewCount(Long viewCount)
-	{
-		this.viewCount = viewCount;
-	}
-
-	public Set<Tag> getTags()
-	{
-		return tags;
-	}
-
-	public void setTags(Set<Tag> tags)
-	{
-		this.tags = tags;
-	}
-	
 	public String getTagsAsString()
 	{
 		if(tags == null || tags.isEmpty()) return "";
@@ -231,6 +101,20 @@ public class Post implements Serializable
 			arr[i++] = tag.getLabel();
 		}
 				
+		return arr;
+	}
+
+	public String[] getTagIdsAsStringArray()
+	{
+		if(tags == null || tags.isEmpty()) return new String[]{};
+
+		String[] arr = new String[tags.size()];
+		int i = 0;
+		for (Tag tag : tags)
+		{
+			arr[i++] = ""+tag.getId();
+		}
+
 		return arr;
 	}
 

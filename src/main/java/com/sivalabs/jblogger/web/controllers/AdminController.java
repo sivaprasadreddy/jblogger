@@ -1,16 +1,14 @@
 /**
- * 
+ *
  */
 package com.sivalabs.jblogger.web.controllers;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -90,8 +88,8 @@ public class AdminController
 	
 	@RequestMapping(value="/posts/{postId}/edit", method=RequestMethod.GET)
 	public String editPostForm(@PathVariable("postId") Integer postId, Model model) {
-		Post post = postService.findPostById(postId);
-		model.addAttribute("post", post);
+		Optional<Post> post = postService.findPostById(postId);
+		model.addAttribute("post", post.get());
 		return "admin/editpost";
 	}
 	
@@ -103,7 +101,7 @@ public class AdminController
 			model.addAttribute("post",post);
 	        return "admin/editpost";
 		}
-		Post oldPost = postService.findPostById(postId);
+		Post oldPost = postService.findPostById(postId).get();
 		
 		oldPost.setTitle(post.getTitle());
 		oldPost.setShortDescription(post.getShortDescription());
@@ -176,12 +174,18 @@ public class AdminController
 		return url;
 	}
 	
-	public Set<Tag> tokenize(String[] labelsArr){
+	public Set<Tag> tokenize(String[] labelsArr) {
 		Set<Tag> tags = new HashSet<>();
-		//String[] labelsArr = labels.split(",");
 		for (String label : labelsArr)
 		{
-			Tag tag = tagService.findByLabel(label.trim());
+			if(StringUtils.isEmpty(label)) continue;
+			Tag tag = null;
+			try {
+				Integer tagId = Integer.parseInt(label.trim());
+				tag = tagService.findById(tagId);
+			}catch (NumberFormatException e){
+				tag = tagService.findByLabel(label.trim());
+			}
 			if(tag == null) {
 				tag = new Tag();
 				tag.setLabel(label.trim());

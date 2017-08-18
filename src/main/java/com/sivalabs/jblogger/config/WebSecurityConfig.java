@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.sivalabs.jblogger.security;
+package com.sivalabs.jblogger.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.security;
 
 import java.util.Collection;

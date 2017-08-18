@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
   <head>
     <meta charset="utf-8"/>
@@ -24,7 +26,7 @@
   <body>
     
   	<div class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
+      <div class="container">
         <div class="navbar-header">
           <a href="#" th:href="@{/}" class="navbar-brand" th:text="#{app.title}">ProjectName</a>
           <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
@@ -42,17 +44,17 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li th:if="(not ${#authentication}) or (not ${#authorization.expression('isAuthenticated()')})"><a href="#" th:href="@{/login}">Login</a></li>
+            <li sec:authorize="isAnonymous()"><a href="#" th:href="@{/login}">Login</a></li>
             <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/admin/posts/newpost}">New Post</a></li>
             <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/admin/dashboard}">DashBoard</a></li>
-            <li th:if="${#authentication} and ${#authorization.expression('isAuthenticated()')}"><a href="#" th:href="@{/logout}">Logout</a></li>
+            <li sec:authorize="isAuthenticated()"><a href="#" th:href="@{/logout}">Logout</a></li>
           </ul>
 
         </div>
       </div>
     </div>
 
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
 			<div class="col-md-3">
 				<div class="panel">

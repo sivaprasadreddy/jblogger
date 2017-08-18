@@ -1,10 +1,8 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,9 +36,9 @@ public class UserService
 		return userRepository.findByEmail(email);
 	}
 	
-	public User getUserById(Integer id)
+	public Optional<User> getUserById(Integer id)
 	{
-		return userRepository.findOne(id);
+		return userRepository.findById(id);
 	}
 	
 	public List<User> getAllUsers() {
@@ -59,7 +57,7 @@ public class UserService
 			for (Role role : roles) {
 				if(role.getId() != null)
 				{
-					persistedRoles.add(roleRepository.findOne(role.getId()));
+					persistedRoles.add(roleRepository.getOne(role.getId()));
 				}
 			}
 		}
@@ -70,8 +68,8 @@ public class UserService
 	
 	public User updateUser(User user)
 	{
-		User persistedUser = getUserById(user.getId());
-		if(persistedUser == null){
+		Optional<User> persistedUser = getUserById(user.getId());
+		if(!persistedUser.isPresent()){
 			throw new JBloggerException("User "+user.getId()+" doesn't exist");
 		}
 		
@@ -81,12 +79,12 @@ public class UserService
 			for (Role role : roles) {
 				if(role.getId() != null)
 				{
-					updatedRoles.add(roleRepository.findOne(role.getId()));
+					updatedRoles.add(roleRepository.getOne(role.getId()));
 				}
 			}
 		}
-		persistedUser.setRoles(updatedRoles);
-		return userRepository.save(persistedUser);
+		persistedUser.get().setRoles(updatedRoles);
+		return userRepository.save(persistedUser.get());
 	}
 	
 }

@@ -32,9 +32,8 @@ public interface PostRepository extends JpaRepository<Post, Integer>
 	@Query("select sum(p.viewCount) from Post p")
 	Long getTotalPostViewCount();
 
-	@Query("SELECT p FROM Post p WHERE p.title like ?1 or p.content like ?1")
+	@Query("SELECT p FROM Post p WHERE LOWER(p.title) like ?1 or LOWER(p.content) like ?1")
 	List<Post> searchPosts(String query);
 
 	
 }
-	

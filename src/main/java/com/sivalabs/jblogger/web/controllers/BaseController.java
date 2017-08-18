@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.web.controllers;
 
 import java.util.Map;

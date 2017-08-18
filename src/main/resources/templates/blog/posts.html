@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	layout:decorator="blog/mainLayout">
 <head>
@@ -29,7 +30,7 @@
 							</span>
 		                	</span>
 						</div>		                
-		                <div class="postt-short-desc">
+		                <div class="post-short-desc">
 		                    <span th:utext="${post.shortDescription}">post shortDescription</span>
 		                    
 		                    &nbsp;
@@ -50,23 +51,12 @@
         </div>
         
         <ul class="pager">
-
-                <li class="next" th:if="${postsResponse.hasNext()}">
-                    <a th:href="@{'/'+${paginationRootUrl+'?page='+(postsResponse.number + 1) }}">Newer &rarr;</a>
-                </li>
-                <!-- 
-                <li class="next disabled" th:if="${!postsResponse.hasNext()}">
-                    <a href="javascript:void(0);">Newer &rarr;</a>
-                </li>
-				 -->
-                <li class="previous" th:if="${postsResponse.hasPrevious()}">
-                    <a th:href="@{'/'+${paginationRootUrl+'?page='+(postsResponse.number - 1) }}">&larr; Older</a>
-                </li>
-                <!-- 
-                <li class="previous disabled" th:if="${! postsResponse.hasPrevious()}">
-                    <a href="javascript:void(0);">&larr; Older</a>
-                </li> 
-                -->
+			<li class="next" th:if="${postsResponse.hasNext()}">
+				<a th:href="@{'/'+${paginationRootUrl+'?page='+(postsResponse.number + 1) }}">Older &rarr;</a>
+			</li>
+			<li class="previous" th:if="${postsResponse.hasPrevious()}">
+				<a th:href="@{'/'+${paginationRootUrl+'?page='+(postsResponse.number - 1) }}">&larr; Newer</a>
+			</li>
         </ul>
         
     </div>

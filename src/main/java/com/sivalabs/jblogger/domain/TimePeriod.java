@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.domain;
 
 import org.slf4j.Logger;

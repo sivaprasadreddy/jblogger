@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.web.controllers;
 
 import java.io.IOException;
@@ -11,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.sivalabs.jblogger.config.JBloggerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sivalabs.jblogger.config.JBloggerSettings;
 import com.sivalabs.jblogger.entities.Comment;
 import com.sivalabs.jblogger.entities.PageView;
 import com.sivalabs.jblogger.entities.Post;
@@ -43,13 +40,13 @@ public class BlogController extends BaseController
 	private PostService postService;
 	
 	@Autowired
-	private JBloggerSettings jbloggerSettings;
+	private JBloggerConfig jBloggerConfig;
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String viewPosts(@RequestParam(value="page", defaultValue="0") Integer page, 
 							Model model) {
 		
-		PageRequest pageRequest = new PageRequest((page < 0 ) ? 0 : page , jbloggerSettings.getPostsPerPage());
+		PageRequest pageRequest = new PageRequest((page < 0 ) ? 0 : page , jBloggerConfig.getPostsPerPage());
 		Page<Post> postsResponse = postService.findPosts(pageRequest);
 		model.addAttribute("postsResponse",postsResponse);
 		model.addAttribute("paginationRootUrl","posts");
@@ -69,7 +66,7 @@ public class BlogController extends BaseController
 	public String viewPostsByTag(@PathVariable("tag")String tag, 
 								@RequestParam(value="page", defaultValue="0") Integer page, 
 								Model model) {
-		PageRequest pageRequest = new PageRequest((page < 0 ) ? 0 : page, jbloggerSettings.getPostsPerPage());
+		PageRequest pageRequest = new PageRequest((page < 0 ) ? 0 : page, jBloggerConfig.getPostsPerPage());
 		Page<Post> postsResponse = postService.findPostsByTag(tag, pageRequest);
 		model.addAttribute("postsResponse",postsResponse);
 		model.addAttribute("paginationRootUrl","posts/tags/"+tag);

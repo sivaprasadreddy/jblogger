@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres
+    container_name: "jbloggerdb"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: postgres
+
+  jblogger:
+    build: .
+    ports:
+     - "9090:8080"
+    depends_on:
+      - postgres

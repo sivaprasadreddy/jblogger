@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.sivalabs.jblogger.web;
+package com.sivalabs.jblogger.web.interceptors;
 
 import java.util.Calendar;
 
