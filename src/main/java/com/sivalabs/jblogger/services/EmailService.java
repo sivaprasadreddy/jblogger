@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Siva
@@ -25,8 +28,8 @@ public class EmailService
 	@Autowired 
 	private JavaMailSender javaMailSender;
 	
-    
-	public void send(String subject, String content)
+    @Async
+	public CompletableFuture<Void> send(String subject, String content)
 	{
 		String supportEmail = jBloggerConfig.getSupportEmail();
 		
@@ -44,6 +47,7 @@ public class EmailService
 		{
 			logger.error("", e);
 		}
+		return CompletableFuture.completedFuture(null);
 	}
 	
 }
