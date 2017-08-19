@@ -1,9 +1,4 @@
-*.class
 
-# Package Files #
-*.jar
-*.war
-*.ear
 *.log
 
 .settings
@@ -19,3 +14,4 @@ build
 .idea
 *.iml
 /.apt_generated/
+nohup.out
