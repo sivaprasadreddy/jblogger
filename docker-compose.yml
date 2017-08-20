@@ -11,12 +11,6 @@ services:
       POSTGRES_PASSWORD: admin123
       POSTGRES_DB: postgres
 
-  fakesmtp:
-    build: ./support/fakesmtp
-    container_name: "fakesmtpserver"
-    ports:
-     - "2525:25"
-
   jblogger:
     build: .
     container_name: jblogger
@@ -24,4 +18,3 @@ services:
      - "9090:8080"
     depends_on:
       - postgres
-      - fakesmtp
