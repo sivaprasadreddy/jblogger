@@ -7,6 +7,7 @@ declare jblogger="jblogger"
 function start() {
     echo 'Starting jblogger....'
     build_api
+    stop
     docker-compose -f ${docker_compose_file} up --build --force-recreate -d ${jblogger}
     docker-compose -f ${docker_compose_file} logs -f
 }

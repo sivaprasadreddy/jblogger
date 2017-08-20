@@ -23,7 +23,8 @@ public class Post implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="post_generator", sequenceName="post_sequence", initialValue = 100)
+	@GeneratedValue(generator = "post_generator")
 	private Integer id;
 
 	@Column(name = "title", nullable = false, length = 150)

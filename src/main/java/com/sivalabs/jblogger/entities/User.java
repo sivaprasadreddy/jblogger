@@ -20,7 +20,9 @@ public class User implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@SequenceGenerator(name="user_generator", sequenceName="user_sequence", initialValue = 100)
+	@GeneratedValue(generator = "user_generator")
 	private Integer id;
 	
 	@Column(nullable=false)

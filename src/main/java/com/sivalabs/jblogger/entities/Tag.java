@@ -19,7 +19,8 @@ public class Tag implements Serializable, Comparable<Tag>
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name="tag_generator", sequenceName="tag_sequence", initialValue = 100)
+	@GeneratedValue(generator = "tag_generator")
 	private Integer id;
 
 	@Column(name = "label", unique=true, nullable = false, length = 150)

@@ -17,7 +17,9 @@ public class PageView implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@SequenceGenerator(name="pageview_generator", sequenceName="pageview_sequence", initialValue = 100)
+	@GeneratedValue(generator = "pageview_generator")
 	private Integer id;
 	
 	private String url;
