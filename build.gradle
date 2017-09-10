@@ -16,6 +16,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "jacoco"
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -44,4 +45,14 @@ dependencies {
 	compile "org.apache.commons:commons-lang3:3.4"
 	compile "com.google.guava:guava:17.0"
 	compile "org.projectlombok:lombok"
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.2
+			}
+		}
+	}
 }
