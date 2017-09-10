@@ -3,12 +3,12 @@ pipeline {
      stages {
           stage("Compile") {
                steps {
-                    sh "./mvnw compile"
+                    sh "./gradlew compileJava"
                }
           }
           stage("Unit test") {
                steps {
-                    sh "./mvnw test"
+                    sh "./gradlew test"
                }
           }
      }
