@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-	layout:decorator="blog/mainLayout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{blog/mainLayout}">
 <head>
 <title>Home</title>
 </head>
@@ -20,7 +21,7 @@
              	<span th:if="${not post.tags.isEmpty()}" >
 					<i class="fa fa-tag"></i> 
 					<span th:each="tag : ${post.tags}">
-						<a class="label label-primary" th:text="${tag.label}" th:href="@{/posts/tags/{tag}(tag=${tag.label})}">Tag</a>
+						<a class="label label-primary" th:text="${tag.label}" th:href="@{/tags/{tag}(tag=${tag.label})}">Tag</a>
 					</span>
 				</span>
 				<span sec:authorize="hasRole('ROLE_ADMIN')">
@@ -57,7 +58,7 @@
 	             </div>
 	         </div>
          
-         	<form class="form" method="post" th:action="@{/posts/{postUrl}/comments(postUrl=${post.url})}" th:object="${comment}">
+         	<form class="form" method="post" th:action="@{/{postUrl}/comments(postUrl=${post.url})}" th:object="${comment}">
 				<div class="row">
 					<div class="form-group col-md-5" th:classappend="${#fields.hasErrors('name')}? has-error">
 						<label for="name">Name</label> 

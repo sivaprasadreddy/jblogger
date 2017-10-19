@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.utils;
 
 import java.util.Calendar;

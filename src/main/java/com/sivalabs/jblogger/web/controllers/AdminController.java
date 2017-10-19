@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.sivalabs.jblogger.web.controllers;
 
 import java.util.*;
@@ -13,12 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.sivalabs.jblogger.domain.BlogOverview;
 import com.sivalabs.jblogger.domain.TimePeriod;
@@ -36,30 +28,44 @@ import com.sivalabs.jblogger.services.TagService;
  *
  */
 @Controller
-@RequestMapping("/admin")
 public class AdminController
 {	
-	@Autowired private EmailService emailService;
-	@Autowired private BlogService blogService;
-	@Autowired private PostService postService;
-	@Autowired private TagService tagService;
-	
-	@RequestMapping("/dashboard")
-	public String dashboard(@RequestParam(value="timePeriod", defaultValue="TODAY") String timePeriod, Model model)
+	private EmailService emailService;
+	private BlogService blogService;
+	private PostService postService;
+	private TagService tagService;
+
+	@Autowired
+	public AdminController(EmailService emailService, BlogService blogService,
+						   PostService postService, TagService tagService) {
+		this.emailService = emailService;
+		this.blogService = blogService;
+		this.postService = postService;
+		this.tagService = tagService;
+	}
+
+	@GetMapping("/login")
+	public String loginForm() {
+		System.out.println("login form.....");
+		return "login";
+	}
+	@RequestMapping("/admin/dashboard")
+	public String dashboard(@RequestParam(value="timePeriod", defaultValue="TODAY") String timePeriod,
+							Model model)
 	{
 		BlogOverview overview = blogService.getBlogOverView(TimePeriod.fromString(timePeriod));
 		model.addAttribute("overview", overview);
 		return "admin/dashboard";
 	}
 	
-	@RequestMapping(value="/posts/newpost", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/posts/newpost", method=RequestMethod.GET)
 	public String newPostForm(Model model) {
 		Post post = new Post();
 		model.addAttribute("post", post);
 		return "admin/newpost";
 	}
 	
-	@RequestMapping(value="/posts", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/posts", method=RequestMethod.POST)
 	public String createPost(@Valid @ModelAttribute("post") Post post, 
 							BindingResult result, 
 							Model model, HttpServletRequest request) {
@@ -83,20 +89,22 @@ public class AdminController
 		String content = "Content :\n"+post.getShortDescription();
 		emailService.send(subject, content);
 		
-		return "redirect:/posts/"+createdPost.getUrl();
+		return "redirect:/"+createdPost.getUrl();
 	}
 	
-	@RequestMapping(value="/posts/{postId}/edit", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/posts/{postId}/edit", method=RequestMethod.GET)
 	public String editPostForm(@PathVariable("postId") Integer postId, Model model) {
 		Optional<Post> post = postService.findPostById(postId);
 		model.addAttribute("post", post.get());
 		return "admin/editpost";
 	}
 	
-	@RequestMapping(value="/posts/{postId}", method=RequestMethod.POST)
-	public String updatePost(@PathVariable("postId") Integer postId, @Valid @ModelAttribute("post") Post post, 
-							BindingResult result, 
-							Model model, HttpServletRequest request) {
+	@RequestMapping(value="/admin/posts/{postId}", method=RequestMethod.POST)
+	public String updatePost(@PathVariable("postId") Integer postId,
+							 @Valid @ModelAttribute("post") Post post,
+							 BindingResult result,
+							 Model model,
+							 HttpServletRequest request) {
 		if(result.hasErrors()){
 			model.addAttribute("post",post);
 	        return "admin/editpost";
@@ -116,32 +124,32 @@ public class AdminController
 		oldPost.setUpdatedOn(new Date());
 		Post updatedPost = this.postService.updatePost(oldPost);
 				
-		return "redirect:/posts/"+updatedPost.getUrl();
+		return "redirect:/"+updatedPost.getUrl();
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/posts/{postId}/delete", method=RequestMethod.DELETE)
+	@RequestMapping(value="/admin/posts/{postId}/delete", method=RequestMethod.DELETE)
 	public String deletePost(@PathVariable("postId") Integer postId) 
 	{
 		postService.deletePost(postId);		
 		return "success";
 	}
 	
-	@RequestMapping("/posts")
+	@RequestMapping("/admin/posts")
 	public String posts(Model model)
 	{
 		model.addAttribute("posts", postService.findAllPosts());
 		return "admin/posts";
 	}
 	
-	@RequestMapping("/comments")
+	@RequestMapping("/admin/comments")
 	public String comments(Model model)
 	{
 		model.addAttribute("comments", postService.findAllComments());
 		return "admin/comments";
 	}
 	
-	@RequestMapping("/comments/delete")
+	@RequestMapping("/admin/comments/delete")
 	public String deleteComments(HttpServletRequest request)
 	{
 		String[] commentIds = request.getParameterValues("comments");
@@ -151,14 +159,14 @@ public class AdminController
 		return "redirect:/admin/comments";
 	}
 	
-	@RequestMapping("/tags")
+	@RequestMapping("/admin/tags")
 	public String tags(Model model)
 	{
 		model.addAttribute("tags", tagService.findAllTags());
 		return "admin/tags";
 	}
 	
-	@RequestMapping("/tagsJson")
+	@RequestMapping("/admin/tagsJson")
 	@ResponseBody
 	public List<Tag> tagsJSON()
 	{
@@ -179,12 +187,12 @@ public class AdminController
 		for (String label : labelsArr)
 		{
 			if(StringUtils.isEmpty(label)) continue;
-			Tag tag = null;
+			Tag tag;
 			try {
 				Integer tagId = Integer.parseInt(label.trim());
-				tag = tagService.findById(tagId);
+				tag = tagService.findById(tagId).orElse(null);
 			}catch (NumberFormatException e){
-				tag = tagService.findByLabel(label.trim());
+				tag = tagService.findByLabel(label.trim()).orElse(null);
 			}
 			if(tag == null) {
 				tag = new Tag();

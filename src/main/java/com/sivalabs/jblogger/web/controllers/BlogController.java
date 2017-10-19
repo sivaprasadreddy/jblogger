@@ -9,17 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.sivalabs.jblogger.config.JBloggerConfig;
+import com.sivalabs.jblogger.domain.PostsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.sivalabs.jblogger.entities.Comment;
 import com.sivalabs.jblogger.entities.PageView;
@@ -31,7 +28,6 @@ import com.sivalabs.jblogger.services.PostService;
  *
  */
 @Controller
-@RequestMapping(value="posts")
 public class BlogController extends BaseController
 {
 	private String viewsDir = "blog/";
@@ -42,40 +38,51 @@ public class BlogController extends BaseController
 	@Autowired
 	private JBloggerConfig jBloggerConfig;
 	
-	@RequestMapping(value="", method=RequestMethod.GET)
-	public String viewPosts(@RequestParam(value="page", defaultValue="0") Integer page, 
+	@GetMapping({"","/page/{page}"})
+	public String viewPosts(@PathVariable(value="page", required = false) Integer page,
 							Model model) {
-		
-		PageRequest pageRequest = new PageRequest((page < 0 ) ? 0 : page , jBloggerConfig.getPostsPerPage());
-		Page<Post> postsResponse = postService.findPosts(pageRequest);
+		if(page == null || page < 1) page = 1;
+		PageRequest pageRequest = PageRequest.of(page - 1, jBloggerConfig.getPostsPerPage());
+		Page<Post> postsPage = postService.findPosts(pageRequest);
+		final PostsResponse postsResponse = this.getPostsResponse(postsPage);
 		model.addAttribute("postsResponse",postsResponse);
-		model.addAttribute("paginationRootUrl","posts");
+		model.addAttribute("paginationRootUrl","page");
         return viewsDir+"posts";
 	}
+
+	private PostsResponse getPostsResponse(Page<Post> postsPage){
+		PostsResponse postsResponse = new PostsResponse();
+		postsResponse.setCurrentPageNo(postsPage.getNumber()+1);
+		postsResponse.setPosts(postsPage.getContent());
+		postsResponse.setTotalPages(postsPage.getTotalPages());
+		postsResponse.setTotalPosts(postsPage.getNumberOfElements());
+		postsResponse.setHasNextPage(postsPage.hasNext());
+		postsResponse.setHasPreviousPage(postsPage.hasPrevious());
+		return postsResponse;
+	}
 	
-	@RequestMapping(value="/search", method=RequestMethod.GET)
+	@GetMapping("/search")
 	public String searchPosts(@RequestParam(value="query", defaultValue="") String query,
 							Model model) {
-
 		List<Post> postsResponse = postService.searchPosts(query);
 		model.addAttribute("postsResponse",postsResponse);
         return viewsDir+"post_search_results";
 	}
 	
-	@RequestMapping(value="/tags/{tag}", method=RequestMethod.GET)
-	public String viewPostsByTag(@PathVariable("tag")String tag, 
-								@RequestParam(value="page", defaultValue="0") Integer page, 
+	@GetMapping({"/tags/{tag}","/tags/{tag}/page/{page}"})
+	public String viewPostsByTag(@PathVariable("tag")String tag,
+								 @PathVariable(value="page", required = false) Integer page,
 								Model model) {
-		PageRequest pageRequest = new PageRequest((page < 0 ) ? 0 : page, jBloggerConfig.getPostsPerPage());
-		Page<Post> postsResponse = postService.findPostsByTag(tag, pageRequest);
+		if(page == null || page < 1) page = 1;
+		PageRequest pageRequest = PageRequest.of(page-1, jBloggerConfig.getPostsPerPage());
+		Page<Post> postsPage = postService.findPostsByTag(tag, pageRequest);
+		final PostsResponse postsResponse = this.getPostsResponse(postsPage);
 		model.addAttribute("postsResponse",postsResponse);
-		model.addAttribute("paginationRootUrl","posts/tags/"+tag);
+		model.addAttribute("paginationRootUrl","tags/"+tag+"/page");
         return viewsDir+"posts";
 	}
 
-	
-
-    @RequestMapping(value="/{postUrl}", method=RequestMethod.GET)
+    @GetMapping("/{postUrl}")
     public String showPost(@PathVariable(value="postUrl") String postUrl, Model model, 
     						HttpServletRequest request,
     						HttpServletResponse response) throws IOException {
@@ -92,7 +99,7 @@ public class BlogController extends BaseController
         return viewsDir+"viewpost";
     }
 
-	@RequestMapping(value="/{postUrl}/comments", method=RequestMethod.POST)
+	@PostMapping(value="/{postUrl}/comments")
 	public String addComment(@PathVariable(value="postUrl") String postUrl, 
 							@Valid @ModelAttribute("comment") Comment comment, 
 							BindingResult result, Model model) {
@@ -100,14 +107,14 @@ public class BlogController extends BaseController
 		if(result.hasErrors()){
 	        model.addAttribute("post",post);
 	        model.addAttribute("comment",comment);
-			return "viewpost";
+			return viewsDir+"viewpost";
 		}
 		comment.setPost(post);
 		postService.createComment(comment );
 		String subject = "A new comment on post :"+post.getTitle();
 		String content = "Comment :\n"+comment.getContent();
 		emailService.send(subject, content);
-		return "redirect:/posts/"+post.getUrl();
+		return "redirect:/"+post.getUrl();
 	}
 
 	private void savePageView(HttpServletRequest request, Post post)

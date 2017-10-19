@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.services;
 
 import java.util.Date;
@@ -26,9 +23,16 @@ import com.sivalabs.jblogger.utils.CommonUtils;
 @Transactional
 public class BlogService 
 {
-	@Autowired private PostRepository postRepository;
-	@Autowired private CommentRepository commentRepository;
-	@Autowired private PageViewRepository pageViewRepository;
+	private PostRepository postRepository;
+	private CommentRepository commentRepository;
+	private PageViewRepository pageViewRepository;
+
+	@Autowired
+	public BlogService(PostRepository postRepository, CommentRepository commentRepository, PageViewRepository pageViewRepository) {
+		this.postRepository = postRepository;
+		this.commentRepository = commentRepository;
+		this.pageViewRepository = pageViewRepository;
+	}
 
 	public BlogOverview getBlogOverView(TimePeriod timePeriod)
 	{

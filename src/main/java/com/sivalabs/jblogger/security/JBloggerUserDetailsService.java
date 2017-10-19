@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sivalabs.jblogger.entities.User;
 import com.sivalabs.jblogger.services.UserService;
 
+import java.util.Optional;
+
 /**
  * @author Siva
  *
@@ -18,17 +20,21 @@ import com.sivalabs.jblogger.services.UserService;
 @Transactional
 public class JBloggerUserDetailsService implements UserDetailsService
 {
+	private UserService userService;
 
 	@Autowired
-	private UserService userService;
-	
+	public JBloggerUserDetailsService(UserService userService) {
+		this.userService = userService;
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		User user = userService.findUserByEmail(userName);
-		if(user == null){
+		Optional<User> user = userService.findUserByEmail(userName);
+		if(user.isPresent()){
+			return new AuthenticatedUser(user.get());
+		} else {
 			throw new UsernameNotFoundException("Email "+userName+" not found");
 		}
-		return new AuthenticatedUser(user);
 	}
 
 }

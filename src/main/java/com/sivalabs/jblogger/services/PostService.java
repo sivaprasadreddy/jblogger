@@ -27,9 +27,16 @@ import com.sivalabs.jblogger.repositories.PostRepository;
 @Transactional
 public class PostService 
 {
-	@Autowired private PostRepository postRepository;
-	@Autowired private CommentRepository commentRepository;
-	@Autowired private PageViewRepository pageViewRepository;
+	private PostRepository postRepository;
+	private CommentRepository commentRepository;
+	private PageViewRepository pageViewRepository;
+
+	@Autowired
+	public PostService(PostRepository postRepository, CommentRepository commentRepository, PageViewRepository pageViewRepository) {
+		this.postRepository = postRepository;
+		this.commentRepository = commentRepository;
+		this.pageViewRepository = pageViewRepository;
+	}
 
 	public List<Post> findAllPosts()
 	{
@@ -83,7 +90,6 @@ public class PostService
 	public Post createPost(Post post) {
 		return postRepository.save(post);
 	}
-
 
 	public Post updatePost(Post post) {
 		return postRepository.save(post);

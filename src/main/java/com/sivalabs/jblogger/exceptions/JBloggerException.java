@@ -1,4 +1,4 @@
-package com.sivalabs.jblogger;
+package com.sivalabs.jblogger.exceptions;
 
 /**
  * @author Siva

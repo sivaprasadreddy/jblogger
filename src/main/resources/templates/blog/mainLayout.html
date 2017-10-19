@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE"  th:text="#{app.title}">JBlogger</title>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE"  th:text="#{app.title}">JBlogger</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
     
     <link rel="stylesheet" th:href="@{/assets/libs/bootstrap/css/yeti-bootstrap.css}"/>
@@ -57,7 +57,7 @@
 					
 					<h3>Blog Search</h3>
 					<div class="form-group">
-					<form class="form-inline" th:action="@{/posts/search}">
+					<form class="form-inline" th:action="@{/search}">
 					  <div class="input-group">
 					    <input type="text" class="form-control" name="query"/>
 					    <span class="input-group-btn">
@@ -73,7 +73,7 @@
 		            <div class="list-group table-of-contents">
 		               
 		              <div th:each="entry : ${tagPostsCountMap}">
-		              	<a class="list-group-item" href="#" th:href="@{/posts/tags/{tag}(tag=${entry.key.label})}">
+		              	<a class="list-group-item" href="#" th:href="@{/tags/{tag}(tag=${entry.key.label})}">
 		              		<span th:text="${entry.key.label}"></span>
 		              		<span th:text="'('+${entry.value}+')'"></span>
 		              	</a>

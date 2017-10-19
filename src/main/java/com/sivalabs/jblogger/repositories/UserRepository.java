@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.sivalabs.jblogger.entities.User;
 
+import java.util.Optional;
+
 /**
  * @author Siva
  * 
@@ -12,9 +14,5 @@ import com.sivalabs.jblogger.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>
 {
-
-	User findByEmail(String email);
-
-	User findByEmailAndPassword(String email, String password);
-
+	Optional<User> findByEmail(String email);
 }

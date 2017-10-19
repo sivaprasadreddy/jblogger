@@ -1,6 +1,7 @@
 package com.sivalabs.jblogger.services;
 
 import com.sivalabs.jblogger.config.JBloggerConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +18,19 @@ import java.util.concurrent.CompletableFuture;
  *
  */
 @Component
+@Slf4j
 public class EmailService
 {
-	private Logger logger = LoggerFactory.getLogger(EmailService.class);
-	
-	@Autowired
 	private JBloggerConfig jBloggerConfig;
-	
-
-	@Autowired 
 	private JavaMailSender javaMailSender;
-	
-    @Async
+
+	@Autowired
+	public EmailService(JBloggerConfig jBloggerConfig, JavaMailSender javaMailSender) {
+		this.jBloggerConfig = jBloggerConfig;
+		this.javaMailSender = javaMailSender;
+	}
+
+	@Async
 	public CompletableFuture<Void> send(String subject, String content)
 	{
 		String supportEmail = jBloggerConfig.getSupportEmail();
@@ -45,7 +47,7 @@ public class EmailService
 			javaMailSender.send(mailMessage);
 		} catch (MailException e)
 		{
-			logger.error("", e);
+			log.error("", e);
 		}
 		return CompletableFuture.completedFuture(null);
 	}

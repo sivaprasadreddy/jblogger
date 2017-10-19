@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-	layout:decorator="blog/mainLayout">
+	layout:decorate="~{blog/mainLayout}">
 <head>
 <title>Home</title>
 </head>
@@ -11,11 +10,11 @@
 
 	<div layout:fragment="content">
 
-        <div th:each="post : ${postsResponse.content}">
+        <div th:each="post : ${postsResponse.posts}">
         	<div class="row">			  
 			  <div class="col-md-12">
 			  		<div class="post well">
-		                <h3> <a class="posttitle" href="#" th:href="@{/posts/{postUrl}(postUrl=${post.url})}" 
+		                <h3> <a class="posttitle" href="#" th:href="@{/{postUrl}(postUrl=${post.url})}"
 		                		th:text="${post.title}">post title</a> 
 		                </h3>
 		                <div>
@@ -26,7 +25,7 @@
 		                	<span th:if="${not post.tags.isEmpty()}" >
 							<i class="fa fa-tag"></i> 
 							<span th:each="tag : ${post.tags}">
-								<a class="label label-primary" th:text="${tag.label}" th:href="@{/posts/tags/{tag}(tag=${tag.label})}">Tag</a>
+								<a class="label label-primary" th:text="${tag.label}" th:href="@{/tags/{tag}(tag=${tag.label})}">Tag</a>
 							</span>
 		                	</span>
 						</div>		                
@@ -34,7 +33,7 @@
 		                    <span th:utext="${post.shortDescription}">post shortDescription</span>
 		                    
 		                    &nbsp;
-		                    <a class="btn btn-danger btn-xs" th:href="@{/posts/{postUrl}(postUrl=${post.url})}">See more</a>
+		                    <a class="btn btn-danger btn-xs" th:href="@{/{postUrl}(postUrl=${post.url})}">See more</a>
 		                </div>
 		                <div class="social-share">
 							<strong>Share on</strong>
@@ -51,11 +50,11 @@
         </div>
         
         <ul class="pager">
-			<li class="next" th:if="${postsResponse.hasNext()}">
-				<a th:href="@{'/'+${paginationRootUrl+'?page='+(postsResponse.number + 1) }}">Older &rarr;</a>
+			<li class="next" th:if="${postsResponse.isHasNextPage()}">
+				<a th:href="@{'/'+${paginationRootUrl+'/'+(postsResponse.currentPageNo + 1) }}">Older &rarr;</a>
 			</li>
-			<li class="previous" th:if="${postsResponse.hasPrevious()}">
-				<a th:href="@{'/'+${paginationRootUrl+'?page='+(postsResponse.number - 1) }}">&larr; Newer</a>
+			<li class="previous" th:if="${postsResponse.isHasPreviousPage()}">
+				<a th:href="@{'/'+${paginationRootUrl+'/'+(postsResponse.currentPageNo - 1) }}">&larr; Newer</a>
 			</li>
         </ul>
         

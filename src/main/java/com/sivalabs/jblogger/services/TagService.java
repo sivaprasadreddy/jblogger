@@ -1,21 +1,18 @@
-/**
- * 
- */
 package com.sivalabs.jblogger.services;
 
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
+import com.sivalabs.jblogger.entities.Tag;
+import com.sivalabs.jblogger.exceptions.JBloggerException;
+import com.sivalabs.jblogger.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sivalabs.jblogger.JBloggerException;
-import com.sivalabs.jblogger.entities.Tag;
-import com.sivalabs.jblogger.repositories.TagRepository;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
 
 /**
  * @author Siva
@@ -25,25 +22,29 @@ import com.sivalabs.jblogger.repositories.TagRepository;
 @Transactional
 public class TagService
 {
-	@Autowired
 	private TagRepository tagRepository;
-	
+
+	@Autowired
+	public TagService(TagRepository tagRepository) {
+		this.tagRepository = tagRepository;
+	}
+
 	public List<Tag> search(String query){
 		return tagRepository.findByLabelLike(query+"%");
 	}
 	
-	public Tag findById(Integer id){
-		return tagRepository.findById(id).orElse(null);
+	public Optional<Tag> findById(Integer id){
+		return tagRepository.findById(id);
 	}
 
 	@Cacheable(value = "tags.item")
-	public Tag findByLabel(String label){
+	public Optional<Tag> findByLabel(String label){
 		return tagRepository.findByLabel(label.trim());
 	}
 	
 	@CacheEvict(value = {"tags.counts", "tags.all"}, allEntries=true)
 	public Tag createTag(Tag tag){
-		if(findByLabel(tag.getLabel()) != null){
+		if(findByLabel(tag.getLabel()).isPresent()){
 			throw new JBloggerException("Tag ["+tag.getLabel()+"] already exists");
 		}
 		return tagRepository.save(tag);
