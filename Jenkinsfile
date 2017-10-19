@@ -18,6 +18,7 @@ pipeline {
           }
           stage("Code coverage") {
                steps {
+                    sh "echo CodeCoverage"
                     /*
                     sh "./gradlew jacocoTestReport"
                     publishHTML (target: [
