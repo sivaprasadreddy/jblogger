@@ -3,6 +3,7 @@ package com.sivalabs.jblogger.web.controllers;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,17 +50,6 @@ public class BlogController extends BaseController
 		model.addAttribute("paginationRootUrl","page");
         return viewsDir+"posts";
 	}
-
-	private PostsResponse getPostsResponse(Page<Post> postsPage){
-		PostsResponse postsResponse = new PostsResponse();
-		postsResponse.setCurrentPageNo(postsPage.getNumber()+1);
-		postsResponse.setPosts(postsPage.getContent());
-		postsResponse.setTotalPages(postsPage.getTotalPages());
-		postsResponse.setTotalPosts(postsPage.getNumberOfElements());
-		postsResponse.setHasNextPage(postsPage.hasNext());
-		postsResponse.setHasPreviousPage(postsPage.hasPrevious());
-		return postsResponse;
-	}
 	
 	@GetMapping("/search")
 	public String searchPosts(@RequestParam(value="query", defaultValue="") String query,
@@ -86,24 +76,32 @@ public class BlogController extends BaseController
     public String showPost(@PathVariable(value="postUrl") String postUrl, Model model, 
     						HttpServletRequest request,
     						HttpServletResponse response) throws IOException {
-        Post post = postService.findPostByUrl(postUrl);
-        if(post == null)
+        Optional<Post> postObj = postService.findPostByUrl(postUrl);
+        if(!postObj.isPresent())
         {
         	response.sendError(HttpServletResponse.SC_NOT_FOUND);
         	return null;
         }
-        model.addAttribute("post",post);
+        model.addAttribute("post",postObj.get());
         model.addAttribute("comment",new Comment());
         
-        this.savePageView(request, post);
+        this.savePageView(request, postObj.get());
         return viewsDir+"viewpost";
     }
 
 	@PostMapping(value="/{postUrl}/comments")
 	public String addComment(@PathVariable(value="postUrl") String postUrl, 
 							@Valid @ModelAttribute("comment") Comment comment, 
-							BindingResult result, Model model) {
-		Post post = postService.findPostByUrl(postUrl);
+							BindingResult result,
+							 Model model,
+							HttpServletResponse response) throws IOException {
+		Optional<Post> postObj = postService.findPostByUrl(postUrl);
+		if(!postObj.isPresent())
+		{
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+		final Post post = postObj.get();
 		if(result.hasErrors()){
 	        model.addAttribute("post",post);
 	        model.addAttribute("comment",comment);
@@ -115,6 +113,17 @@ public class BlogController extends BaseController
 		String content = "Comment :\n"+comment.getContent();
 		emailService.send(subject, content);
 		return "redirect:/"+post.getUrl();
+	}
+
+	private PostsResponse getPostsResponse(Page<Post> postsPage){
+		PostsResponse postsResponse = new PostsResponse();
+		postsResponse.setCurrentPageNo(postsPage.getNumber()+1);
+		postsResponse.setPosts(postsPage.getContent());
+		postsResponse.setTotalPages(postsPage.getTotalPages());
+		postsResponse.setTotalPosts(postsPage.getNumberOfElements());
+		postsResponse.setHasNextPage(postsPage.hasNext());
+		postsResponse.setHasPreviousPage(postsPage.hasPrevious());
+		return postsResponse;
 	}
 
 	private void savePageView(HttpServletRequest request, Post post)

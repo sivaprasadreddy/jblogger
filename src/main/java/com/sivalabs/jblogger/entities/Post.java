@@ -50,11 +50,9 @@ public class Post implements Serializable
 	@JoinColumn(name = "created_by", nullable = false)
 	private User createdBy;
 
-	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_on")
 	private LocalDateTime createdOn = LocalDateTime.now();
 
-	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updated_on")
 	private LocalDateTime updatedOn;
 

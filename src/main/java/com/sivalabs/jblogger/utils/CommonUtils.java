@@ -15,6 +15,9 @@ import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
  */
 public class CommonUtils
 {
+	private CommonUtils() {
+	}
+
 	public static LocalDateTime getStartOfDay(LocalDateTime date) {
 		return date.toLocalDate().atStartOfDay();
 	}

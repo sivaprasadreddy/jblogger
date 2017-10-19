@@ -1,9 +1,11 @@
 package com.sivalabs.jblogger.web.controllers;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -47,9 +49,9 @@ public class AdminController
 
 	@GetMapping("/login")
 	public String loginForm() {
-		System.out.println("login form.....");
 		return "login";
 	}
+
 	@RequestMapping("/admin/dashboard")
 	public String dashboard(@RequestParam(value="timePeriod", defaultValue="TODAY") String timePeriod,
 							Model model)
@@ -94,8 +96,15 @@ public class AdminController
 	}
 	
 	@RequestMapping(value="/admin/posts/{postId}/edit", method=RequestMethod.GET)
-	public String editPostForm(@PathVariable("postId") Integer postId, Model model) {
+	public String editPostForm(@PathVariable("postId") Integer postId,
+							   HttpServletResponse response,
+							   Model model) throws IOException {
 		Optional<Post> post = postService.findPostById(postId);
+		if(!post.isPresent())
+		{
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
 		model.addAttribute("post", post.get());
 		return "admin/editpost";
 	}
@@ -105,13 +114,19 @@ public class AdminController
 							 @Valid @ModelAttribute("post") Post post,
 							 BindingResult result,
 							 Model model,
-							 HttpServletRequest request) {
+							 HttpServletRequest request,
+							 HttpServletResponse response) throws IOException {
 		if(result.hasErrors()){
 			model.addAttribute("post",post);
 	        return "admin/editpost";
 		}
-		Post oldPost = postService.findPostById(postId).get();
-		
+		Optional<Post> oldPostObj = postService.findPostById(postId);
+		if(!oldPostObj.isPresent())
+		{
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+		final Post oldPost = oldPostObj.get();
 		oldPost.setTitle(post.getTitle());
 		oldPost.setShortDescription(post.getShortDescription());
 		oldPost.setContent(post.getContent());

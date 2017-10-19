@@ -25,7 +25,7 @@ public class WebUtils
 	private static JBloggerConfig jBloggerConfig;
 
 	@Autowired
-	public WebUtils(JBloggerConfig config) {
+	WebUtils(JBloggerConfig config) {
 		WebUtils.jBloggerConfig = config;
 	}
 	

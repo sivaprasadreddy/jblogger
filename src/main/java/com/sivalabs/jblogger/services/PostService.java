@@ -27,6 +27,8 @@ import com.sivalabs.jblogger.repositories.PostRepository;
 @Transactional
 public class PostService 
 {
+	public static final String CREATED_ON = "createdOn";
+
 	private PostRepository postRepository;
 	private CommentRepository commentRepository;
 	private PageViewRepository pageViewRepository;
@@ -40,13 +42,13 @@ public class PostService
 
 	public List<Post> findAllPosts()
 	{
-		Sort sort = new Sort(Direction.DESC, "createdOn");
+		Sort sort = new Sort(Direction.DESC, CREATED_ON);
 		return postRepository.findAll(sort);
 	}
 	
 	public Page<Post> findPosts(PageRequest pageRequest) 
 	{		
-		Sort sort = new Sort(Direction.DESC, "createdOn");
+		Sort sort = new Sort(Direction.DESC, CREATED_ON);
 		int pageNo = pageRequest.getPageNumber();
 		int pageSize = pageRequest.getPageSize();
 		if(pageNo < 0){
@@ -56,14 +58,13 @@ public class PostService
 			pageSize = 5;
 		}
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		Page<Post> pageData = postRepository.findAll(pageable);
-		
-		return pageData;
+
+		return postRepository.findAll(pageable);
 	}
 	
 	public Page<Post> findPostsByTag(String tag, PageRequest pageRequest)
 	{
-		Sort sort = new Sort(Direction.DESC, "createdOn");
+		Sort sort = new Sort(Direction.DESC, CREATED_ON);
 		int pageNo = pageRequest.getPageNumber();
 		int pageSize = pageRequest.getPageSize();
 		if(pageNo < 0){
@@ -73,16 +74,15 @@ public class PostService
 			pageSize = 5;
 		}
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		Page<Post> pageData = postRepository.findByTags(tag, pageable);
-		
-		return pageData;
+
+		return postRepository.findByTags(tag, pageable);
 	}
 	
 	public Optional<Post> findPostById(int postId) {
 		return postRepository.findById(postId);
 	}
 	
-	public Post findPostByUrl(String url)
+	public Optional<Post> findPostByUrl(String url)
 	{
 		return postRepository.findByUrl(url);
 	}
@@ -115,7 +115,7 @@ public class PostService
 
 	public List<Comment> findAllComments()
 	{
-		Sort sort = new Sort(Direction.DESC, "createdOn");
+		Sort sort = new Sort(Direction.DESC, CREATED_ON);
 		return commentRepository.findAll(sort);
 	}
 
@@ -125,7 +125,7 @@ public class PostService
 
 	public Page<Comment> findComments(PageRequest request)
 	{
-		Sort sort = new Sort(Direction.DESC, "createdOn");
+		Sort sort = new Sort(Direction.DESC, CREATED_ON);
 		int pageNo = request.getPageNumber();
 		int pageSize = request.getPageSize();
 		if(pageNo < 0){
@@ -135,9 +135,8 @@ public class PostService
 			pageSize = 5;
 		}
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		Page<Comment> pageData = commentRepository.findAll(pageable);
-		
-		return pageData;
+
+		return commentRepository.findAll(pageable);
 	}
 
 	public void deleteComment(Integer commentId)

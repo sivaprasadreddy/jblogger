@@ -16,8 +16,7 @@ public enum TimePeriod
 	public static TimePeriod fromString(String value) {
 		try
 		{
-			TimePeriod tp = TimePeriod.valueOf(value);
-			return tp;
+			return TimePeriod.valueOf(value);
 		} catch (Exception e)
 		{
 			logger.error(e.getMessage(),e);

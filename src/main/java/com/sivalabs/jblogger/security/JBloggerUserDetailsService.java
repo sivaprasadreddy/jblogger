@@ -28,7 +28,7 @@ public class JBloggerUserDetailsService implements UserDetailsService
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String userName) {
 		Optional<User> user = userService.findUserByEmail(userName);
 		if(user.isPresent()){
 			return new AuthenticatedUser(user.get());

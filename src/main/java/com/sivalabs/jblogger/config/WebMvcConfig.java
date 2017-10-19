@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
@@ -32,12 +31,6 @@ public class WebMvcConfig implements WebMvcConfigurer
 		LocalValidatorFactoryBean factory = new LocalValidatorFactoryBean();
 		factory.setValidationMessageSource(messageSource);
 		return factory;
-	}
-
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry)
-	{
-		//registry.addViewController("/login").setViewName("login");
 	}
 
 	@Override

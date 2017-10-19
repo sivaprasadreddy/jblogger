@@ -1,16 +1,12 @@
 package com.sivalabs.jblogger.security;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.sivalabs.jblogger.entities.Role;
+import com.sivalabs.jblogger.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 
-import com.sivalabs.jblogger.entities.Role;
-import com.sivalabs.jblogger.entities.User;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Siva
@@ -35,17 +31,8 @@ public class AuthenticatedUser extends org.springframework.security.core.userdet
 	
 	private static Collection<? extends GrantedAuthority> getAuthorities(User user)
 	{
-		Set<String> roleAndPermissions = new HashSet<>();
 		List<Role> roles = user.getRoles();
-		/*
-		for (Role role : roles)
-		{
-			roleAndPermissions.add(role.getName());
-		}
-		String[] roleNames = new String[roleAndPermissions.size()];
-		*/
-		final String[] roleNames = roles.stream().map(role -> role.getName()).toArray(String[]::new);
-		Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(roleNames);
-		return authorities;
+		final String[] roleNames = roles.stream().map(Role::getName).toArray(String[]::new);
+		return AuthorityUtils.createAuthorityList(roleNames);
 	}
 }

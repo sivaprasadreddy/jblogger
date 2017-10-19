@@ -3,16 +3,22 @@ pipeline {
      stages {
           stage("Compile") {
                steps {
-                    sh "./gradlew compileJava"
+                    sh "./mvnw clean compile"
                }
           }
           stage("Unit test") {
                steps {
-                    sh "./gradlew test"
+                    sh "./mvnw test"
+               }
+          }
+          stage("Sonar Code Quality Check") {
+                steps {
+                    sh "./mvnw sonar:sonar"
                }
           }
           stage("Code coverage") {
                steps {
+                    /*
                     sh "./gradlew jacocoTestReport"
                     publishHTML (target: [
                          reportDir: 'build/reports/jacoco/test/html',
@@ -20,6 +26,7 @@ pipeline {
                          reportName: "JaCoCo Report"
                     ])
                     sh "./gradlew jacocoTestCoverageVerification"
+                    */
                }
           }
      }

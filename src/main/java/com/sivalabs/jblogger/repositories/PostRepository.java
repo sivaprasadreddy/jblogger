@@ -1,6 +1,7 @@
 package com.sivalabs.jblogger.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +23,7 @@ public interface PostRepository extends JpaRepository<Post, Integer>
 	@Query("SELECT p FROM Post p INNER JOIN p.tags t WHERE t.label= :tag")
 	Page<Post> findByTags(@Param("tag") String tag, Pageable pageable);
 
-	//@Query("SELECT distinct p FROM Post p LEFT JOIN FETCH p.createdBy LEFT JOIN FETCH p.tags LEFT JOIN FETCH p.comments where p.url=?1")
-	Post findByUrl(String url);
+	Optional<Post> findByUrl(String url);
 
 	@Modifying
 	@Query("update Post p set p.viewCount=:viewCount where p.id=:postId")
