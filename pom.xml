@@ -94,6 +94,7 @@
 					</execution>
 					<execution>
 						<id>default-report</id>
+						<phase>verify</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>

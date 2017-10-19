@@ -9,6 +9,7 @@ pipeline {
           stage("Unit test") {
                steps {
                     sh "./mvnw test"
+                    junit 'target/surefire-reports/*.xml'
                }
           }
           stage("Sonar Code Quality Check") {
@@ -19,6 +20,14 @@ pipeline {
           stage("Code coverage") {
                steps {
                     sh "./mvnw verify"
+                    publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: false,
+                    reportDir: 'target/site/jacoco',
+                    reportFiles: 'index.html',
+                    reportName: 'Jacoco Report',
+                    reportTitles: ''])
 
                }
           }
@@ -26,7 +35,6 @@ pipeline {
      post {
          always {
              archive "target/*.jar"
-             junit 'target/surefire-reports/*.xml'
          }
      }
 }
