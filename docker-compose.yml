@@ -16,5 +16,6 @@ services:
     container_name: jblogger
     ports:
      - "9090:8080"
+     - '9797:8787'
     depends_on:
       - postgres

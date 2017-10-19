@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.annotations.Type;
 
 
 /**
@@ -34,9 +36,9 @@ public class Post implements Serializable
 	@Column(name = "url", length = 255)
 	private String url;
 
-	//@Lob
-	//@Type(type = "org.hibernate.type.TextType")
-	@Column(name = "content", nullable = false, columnDefinition = "text")
+	@Lob
+	@Type(type = "org.hibernate.type.TextType")
+	@Column(name = "content", nullable = false)
 	@NotEmpty
 	private String content;
 

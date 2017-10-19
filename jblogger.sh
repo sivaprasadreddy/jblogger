@@ -6,7 +6,7 @@ declare jblogger="jblogger"
 
 function start() {
     echo 'Starting jblogger....'
-    build_api
+    build_app
     stop
     docker-compose -f ${docker_compose_file} up --build --force-recreate -d ${jblogger}
     docker-compose -f ${docker_compose_file} logs -f
@@ -18,7 +18,7 @@ function stop() {
     docker-compose -f ${docker_compose_file} rm -f
 }
 
-function build_api() {
+function build_app() {
     ./mvnw clean package -DskipTests
 }
 
