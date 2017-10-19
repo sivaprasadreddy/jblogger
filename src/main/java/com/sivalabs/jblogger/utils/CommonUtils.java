@@ -1,9 +1,12 @@
 package com.sivalabs.jblogger.utils;
 
-import java.util.Calendar;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
-import org.apache.commons.lang3.time.DateUtils;
+import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
 
 /**
@@ -12,81 +15,59 @@ import org.apache.commons.lang3.time.DateUtils;
  */
 public class CommonUtils
 {
-	
-	public static Date getEndOfDay(Date date) {
-	    return DateUtils.addMilliseconds(DateUtils.ceiling(date, Calendar.DATE), -1);
+	public static LocalDateTime getStartOfDay(LocalDateTime date) {
+		return date.toLocalDate().atStartOfDay();
 	}
 
-	public static Date getStartOfDay(Date date) {
-	    return DateUtils.truncate(date, Calendar.DATE);
+	public static LocalDateTime getEndOfDay(LocalDateTime date) {
+		return date.toLocalDate().atTime(23, 59, 59);
+	}
+
+	public static LocalDateTime getYesterDay(LocalDateTime date) {
+		return date.minusDays(1);
 	}
 	
-	public static Date getYesterDay(Date date) {
-	    return DateUtils.addDays(date, -1);
-	}
-	
-	public static Date getWeekStartDay(Date date)
+	public static LocalDateTime getWeekStartDay(LocalDateTime date)
 	{
-		Calendar cal = Calendar.getInstance();
-	    cal.setTime(date);
-		Calendar first = (Calendar) cal.clone();
-	    first.add(Calendar.DAY_OF_WEEK, 
-	              first.getFirstDayOfWeek() - first.get(Calendar.DAY_OF_WEEK));
-	    return first.getTime();
+		return date.with(DayOfWeek.MONDAY);
 	}
 	
-	public static Date getWeekEndDay(Date date)
+	public static LocalDateTime getWeekEndDay(LocalDateTime date)
 	{
-		Calendar cal = Calendar.getInstance();
-	    cal.setTime(date);
-		Calendar first = (Calendar) cal.clone();
-	    first.add(Calendar.DAY_OF_WEEK, 
-	              first.getFirstDayOfWeek() - first.get(Calendar.DAY_OF_WEEK));
-	    
-	    // and add six days to the end date
-	    Calendar last = (Calendar) first.clone();
-	    last.add(Calendar.DAY_OF_YEAR, 6);
-	    
-	    return last.getTime();
+		return date.with(DayOfWeek.SUNDAY);
 	}
 	
-	public static Date getMonthStartDay(Date date)
+	public static LocalDateTime getMonthStartDay(LocalDateTime date)
 	{
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-	    c.set(Calendar.DAY_OF_MONTH, 1);
-	    return c.getTime();   
+		return date.with(firstDayOfMonth());
 	}
 	
-	public static Date getMonthEndDay(Date date)
+	public static LocalDateTime getMonthEndDay(LocalDateTime date)
 	{
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-	    
-	    c.add(Calendar.MONTH, 1);  
-        c.set(Calendar.DAY_OF_MONTH, 1);  
-        c.add(Calendar.DATE, -1);  
-        
-	    return c.getTime();   
+		return date.with(lastDayOfMonth());
 	}
 	
-	public static Date getDummyVeryOldDate()
+	public static LocalDateTime getDummyVeryOldDate()
 	{
-		Calendar c = Calendar.getInstance();
-		 c.set(Calendar.YEAR, 1970);  
-		 c.set(Calendar.MONTH, 1);  
-		 c.set(Calendar.DATE, 1);
-		 return c.getTime();
+		return LocalDateTime.now()
+				.withYear(1900)
+				.withMonth(1)
+				.withDayOfYear(1);
 	}
 	
-	public static Date getDummyVeryNewDate()
+	public static LocalDateTime getDummyVeryNewDate()
 	{
-		Calendar c = Calendar.getInstance();
-		 c.set(Calendar.YEAR, 9999);  
-		 c.set(Calendar.MONTH, 1);  
-		 c.set(Calendar.DATE, 1);
-		 return c.getTime();
+		return LocalDateTime.now()
+				.withYear(9999)
+				.withMonth(12)
+				.withDayOfYear(31);
 	}
-	
-	
+
+	public static LocalDateTime getAsLocalDateTime(Date date){
+		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+	}
+
+	public static Date getAsDate(LocalDateTime ldt){
+		return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+	}
 }

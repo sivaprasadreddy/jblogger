@@ -44,7 +44,7 @@
 					</td>
 					<td th:text="${post.comments.size()}">10</td>
 					<td th:text="${post.viewCount}">10</td>
-					<td th:text="${#calendars.format(post.createdOn,'dd MMM yyyy')}">10-10-2015</td>
+					<td th:text="${#temporals.format(post.createdOn,'dd MMM yyyy')}">10-10-2015</td>
 				</tr>
 			</tbody>
 		</table>

@@ -1,6 +1,6 @@
 package com.sivalabs.jblogger.services;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +42,15 @@ public class BlogService
 
 		long commentsCount = commentRepository.count();
 		overview.setCommentsCount(commentsCount);
-		
-		Date today = new Date();
-		Date startDate = CommonUtils.getStartOfDay(today);
-		Date endDate = CommonUtils.getEndOfDay(today);
+
+		LocalDateTime today = LocalDateTime.now();
+		LocalDateTime startDate = CommonUtils.getStartOfDay(today);
+		LocalDateTime endDate = CommonUtils.getEndOfDay(today);
 		
 		long todayViewCount = pageViewRepository.countByVisitTimeBetween(startDate, endDate);
 		overview.setTodayViewCount(todayViewCount);
-		
-		Date yesterday = CommonUtils.getYesterDay(today);
+
+		LocalDateTime yesterday = CommonUtils.getYesterDay(today);
 		startDate = CommonUtils.getStartOfDay(yesterday);
 		endDate = CommonUtils.getEndOfDay(yesterday);
 		long yesterdayViewCount = pageViewRepository.countByVisitTimeBetween(startDate, endDate);

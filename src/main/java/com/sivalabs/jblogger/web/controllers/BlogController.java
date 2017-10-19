@@ -1,7 +1,7 @@
 package com.sivalabs.jblogger.web.controllers;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -125,7 +125,7 @@ public class BlogController extends BaseController
 		pageView.setReferrer(referrer);
         pageView.setUrl(url);
         pageView.setPost(post);
-        pageView.setVisitTime(new Date());
+        pageView.setVisitTime(LocalDateTime.now());
         
 		Long viewCount = post.getViewCount();
 		if(viewCount == null) viewCount = 0L;

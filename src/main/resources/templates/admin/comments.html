@@ -27,7 +27,7 @@
 					<td th:text="${iterStat.count}">1</td>
 					<td> <span th:text="${comment.content}">content</span> on  <span th:text="${comment.post.title}">title</span> </td>
 					<td th:text="${comment.email}">admin@gmail.com</td>
-					<td th:text="${#calendars.format(comment.createdOn,'dd MMM yyyy')}">10-10-2015</td>
+					<td th:text="${#temporals.format(comment.createdOn,'dd MMM yyyy')}">10-10-2015</td>
 				</tr>
 			</tbody>
 			<tfoot>

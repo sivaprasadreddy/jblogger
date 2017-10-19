@@ -1,7 +1,7 @@
 package com.sivalabs.jblogger.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 import lombok.Data;
@@ -26,9 +26,8 @@ public class PageView implements Serializable
 	
 	private String referrer;
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="visit_time")
-	private Date visitTime = new Date();
+	private LocalDateTime visitTime = LocalDateTime.now();
 	
 	@ManyToOne
 	@JoinColumn(name="post_id")

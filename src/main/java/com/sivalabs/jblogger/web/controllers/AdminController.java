@@ -1,5 +1,6 @@
 package com.sivalabs.jblogger.web.controllers;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -121,7 +122,7 @@ public class AdminController
 			oldPost.setTags(tags);
 		}
 		
-		oldPost.setUpdatedOn(new Date());
+		oldPost.setUpdatedOn(LocalDateTime.now());
 		Post updatedPost = this.postService.updatePost(oldPost);
 				
 		return "redirect:/"+updatedPost.getUrl();

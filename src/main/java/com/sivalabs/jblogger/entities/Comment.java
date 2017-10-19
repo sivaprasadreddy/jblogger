@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author Siva
@@ -40,13 +40,11 @@ public class Comment implements Serializable
 	@NotEmpty
 	private String content;
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_on")
-	private Date createdOn = new Date();
+	private LocalDateTime createdOn = LocalDateTime.now();
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="updated_on")
-	private Date updatedOn;
+	private LocalDateTime updatedOn;
 	
 	@ManyToOne
 	@JoinColumn(name="post_id", nullable=false)

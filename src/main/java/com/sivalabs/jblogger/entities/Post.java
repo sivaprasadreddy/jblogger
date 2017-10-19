@@ -1,8 +1,8 @@
 package com.sivalabs.jblogger.entities;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -50,13 +50,13 @@ public class Post implements Serializable
 	@JoinColumn(name = "created_by", nullable = false)
 	private User createdBy;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_on")
-	private Date createdOn = new Date();
+	private LocalDateTime createdOn = LocalDateTime.now();
 
-	@Temporal(TemporalType.TIMESTAMP)
+	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updated_on")
-	private Date updatedOn;
+	private LocalDateTime updatedOn;
 
 	@Column(name = "view_count", columnDefinition="bigint default 0")
 	private Long viewCount = 0L;

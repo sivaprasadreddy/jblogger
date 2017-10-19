@@ -16,7 +16,7 @@
 			<div>
              	<i class="fa fa-user"></i> <strong th:text="${post.createdBy.name}">Admin</strong>
              	&nbsp;&nbsp;
-             	<i class="fa fa-calendar"></i> <strong th:text="${#calendars.format(post.createdOn,'dd MMMM yyyy')}">Date</strong>
+             	<i class="fa fa-calendar"></i> <strong th:text="${#temporals.format(post.createdOn,'dd MMMM yyyy')}">Date</strong>
              	&nbsp;&nbsp;
              	<span th:if="${not post.tags.isEmpty()}" >
 					<i class="fa fa-tag"></i> 
@@ -53,7 +53,7 @@
 	         <div th:each="comment : ${post.comments}">
 	             <div class="well comment">
 	                 <p><b>Name : </b><strong th:text="${comment.name}">name</strong></p> 
-	                 <p><b>Date: </b><span th:text="${#calendars.format(comment.createdOn,'dd MMMM yyyy')}"></span></p>
+	                 <p><b>Date: </b><span th:text="${#temporals.format(comment.createdOn,'dd MMMM yyyy')}"></span></p>
 	                 <p th:text="${comment.content}">content</p>
 	             </div>
 	         </div>
