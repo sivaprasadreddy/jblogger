@@ -42,8 +42,7 @@ dependencies {
 	compile "mysql:mysql-connector-java"
 	compile "com.h2database:h2"
 	compile "org.postgresql:postgresql"
-	compile "org.apache.commons:commons-lang3:3.4"
-	compile "com.google.guava:guava:17.0"
+	compile "org.apache.commons:commons-lang3"
 	compile "org.projectlombok:lombok"
 }
 
