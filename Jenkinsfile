@@ -27,7 +27,6 @@ pipeline {
      }
      post {
          always {
-             archive "target/*.jar"
              publishHTML([
                  allowMissing: false,
                  alwaysLinkToLastBuild: false,
