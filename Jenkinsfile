@@ -18,10 +18,8 @@ pipeline {
           }
           stage("Code coverage") {
                steps {
-                    sh "./mvnw verify"
-                    junit '*/target/site/jacoco/*.xml'
-                    step( [ $class: 'JacocoPublisher' ] )
-
+                    archive "target/**/*"
+                    junit 'target/surefire-reports/*.xml'
                }
           }
      }
