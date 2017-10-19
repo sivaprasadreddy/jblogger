@@ -18,16 +18,10 @@ pipeline {
           }
           stage("Code coverage") {
                steps {
-                    sh "echo CodeCoverage"
-                    /*
-                    sh "./gradlew jacocoTestReport"
-                    publishHTML (target: [
-                         reportDir: 'build/reports/jacoco/test/html',
-                         reportFiles: 'index.html',
-                         reportName: "JaCoCo Report"
-                    ])
-                    sh "./gradlew jacocoTestCoverageVerification"
-                    */
+                    sh "./mvnw verify"
+                    junit '*/target/site/jacoco/*.xml'
+                    step( [ $class: 'JacocoPublisher' ] )
+
                }
           }
      }
