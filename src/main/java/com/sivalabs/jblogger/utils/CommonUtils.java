@@ -2,9 +2,6 @@ package com.sivalabs.jblogger.utils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.TemporalField;
-import java.util.Date;
 
 import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
@@ -16,9 +13,6 @@ import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
  */
 public class CommonUtils
 {
-	private CommonUtils() {
-	}
-
 	public static LocalDateTime getStartOfDay(LocalDateTime date) {
 		return date.toLocalDate().atStartOfDay();
 	}
