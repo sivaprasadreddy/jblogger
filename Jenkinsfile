@@ -20,14 +20,7 @@ pipeline {
           stage("Code coverage") {
                steps {
                     sh "./mvnw verify"
-                    publishHTML([
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: false,
-                    keepAll: false,
-                    reportDir: 'target/site/jacoco',
-                    reportFiles: 'index.html',
-                    reportName: 'Jacoco Report',
-                    reportTitles: ''])
+
 
                }
           }
@@ -35,6 +28,14 @@ pipeline {
      post {
          always {
              archive "target/*.jar"
+             publishHTML([
+                 allowMissing: false,
+                 alwaysLinkToLastBuild: false,
+                 keepAll: false,
+                 reportDir: 'target/site/jacoco',
+                 reportFiles: 'index.html',
+                 reportName: 'Jacoco Report',
+                 reportTitles: ''])
          }
      }
 }
