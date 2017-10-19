@@ -18,9 +18,15 @@ pipeline {
           }
           stage("Code coverage") {
                steps {
-                    archive "target/**/*"
-                    junit 'target/surefire-reports/*.xml'
+                    sh "./mvnw verify"
+
                }
           }
+     }
+     post {
+         always {
+             archive "target/*.jar"
+             junit 'target/surefire-reports/*.xml'
+         }
      }
 }
