@@ -3,6 +3,7 @@ package com.sivalabs.jblogger.utils;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.TemporalField;
 import java.util.Date;
 
 import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
@@ -55,7 +56,12 @@ public class CommonUtils
 		return LocalDateTime.now()
 				.withYear(1900)
 				.withMonth(1)
-				.withDayOfYear(1);
+				.withDayOfYear(1)
+				.withHour(1)
+				.withMinute(1)
+				.withSecond(1)
+				.withNano(1)
+				;
 	}
 	
 	public static LocalDateTime getDummyVeryNewDate()
@@ -63,14 +69,12 @@ public class CommonUtils
 		return LocalDateTime.now()
 				.withYear(9999)
 				.withMonth(12)
-				.withDayOfYear(31);
+				.withDayOfYear(31)
+				.withHour(23)
+				.withMinute(59)
+				.withSecond(59)
+				.withNano(1)
+				;
 	}
 
-	public static LocalDateTime getAsLocalDateTime(Date date){
-		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
-	}
-
-	public static Date getAsDate(LocalDateTime ldt){
-		return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-	}
 }
