@@ -3,6 +3,7 @@ package com.sivalabs.jblogger.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.sivalabs.jblogger.config.JBloggerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,11 +34,17 @@ public class PostService
 	private CommentRepository commentRepository;
 	private PageViewRepository pageViewRepository;
 
+	private JBloggerConfig jBloggerConfig;
+
 	@Autowired
-	public PostService(PostRepository postRepository, CommentRepository commentRepository, PageViewRepository pageViewRepository) {
+	public PostService(PostRepository postRepository,
+					   CommentRepository commentRepository,
+					   PageViewRepository pageViewRepository,
+					   JBloggerConfig jBloggerConfig) {
 		this.postRepository = postRepository;
 		this.commentRepository = commentRepository;
 		this.pageViewRepository = pageViewRepository;
+		this.jBloggerConfig = jBloggerConfig;
 	}
 
 	public List<Post> findAllPosts()
@@ -46,32 +53,24 @@ public class PostService
 		return postRepository.findAll(sort);
 	}
 	
-	public Page<Post> findPosts(PageRequest pageRequest) 
+	public Page<Post> findPosts(int pageNo)
 	{		
 		Sort sort = new Sort(Direction.DESC, CREATED_ON);
-		int pageNo = pageRequest.getPageNumber();
-		int pageSize = pageRequest.getPageSize();
-		if(pageNo < 0){
-			pageNo = 0;
+		int pageSize = jBloggerConfig.getPostsPerPage();
+		if(pageNo < 1){
+			pageNo = 1;
 		}
-		if(pageSize < 1) {
-			pageSize = 5;
-		}
-		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
 
 		return postRepository.findAll(pageable);
 	}
 	
-	public Page<Post> findPostsByTag(String tag, PageRequest pageRequest)
+	public Page<Post> findPostsByTag(String tag, int pageNo)
 	{
 		Sort sort = new Sort(Direction.DESC, CREATED_ON);
-		int pageNo = pageRequest.getPageNumber();
-		int pageSize = pageRequest.getPageSize();
-		if(pageNo < 0){
-			pageNo = 0;
-		}
-		if(pageSize < 1) {
-			pageSize = 5;
+		int pageSize = jBloggerConfig.getPostsPerPage();
+		if(pageNo < 1){
+			pageNo = 1;
 		}
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 
@@ -121,22 +120,6 @@ public class PostService
 
 	public Comment createComment(Comment comment) {
 		return commentRepository.save(comment);
-	}
-
-	public Page<Comment> findComments(PageRequest request)
-	{
-		Sort sort = new Sort(Direction.DESC, CREATED_ON);
-		int pageNo = request.getPageNumber();
-		int pageSize = request.getPageSize();
-		if(pageNo < 0){
-			pageNo = 0;
-		}
-		if(pageSize < 1) {
-			pageSize = 5;
-		}
-		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-
-		return commentRepository.findAll(pageable);
 	}
 
 	public void deleteComment(Integer commentId)

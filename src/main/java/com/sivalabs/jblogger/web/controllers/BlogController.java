@@ -1,28 +1,24 @@
 package com.sivalabs.jblogger.web.controllers;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
-import com.sivalabs.jblogger.config.JBloggerConfig;
 import com.sivalabs.jblogger.domain.PostsResponse;
+import com.sivalabs.jblogger.entities.Comment;
+import com.sivalabs.jblogger.entities.PageView;
+import com.sivalabs.jblogger.entities.Post;
+import com.sivalabs.jblogger.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.sivalabs.jblogger.entities.Comment;
-import com.sivalabs.jblogger.entities.PageView;
-import com.sivalabs.jblogger.entities.Post;
-import com.sivalabs.jblogger.services.PostService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Siva
@@ -31,20 +27,20 @@ import com.sivalabs.jblogger.services.PostService;
 @Controller
 public class BlogController extends BaseController
 {
-	private String viewsDir = "blog/";
+	private static final String viewsDir = "blog/";
 	
-	@Autowired
 	private PostService postService;
-	
+
 	@Autowired
-	private JBloggerConfig jBloggerConfig;
-	
+	public BlogController(PostService postService) {
+		this.postService = postService;
+	}
+
 	@GetMapping({"","/page/{page}"})
 	public String viewPosts(@PathVariable(value="page", required = false) Integer page,
 							Model model) {
 		if(page == null || page < 1) page = 1;
-		PageRequest pageRequest = PageRequest.of(page - 1, jBloggerConfig.getPostsPerPage());
-		Page<Post> postsPage = postService.findPosts(pageRequest);
+		Page<Post> postsPage = postService.findPosts(page);
 		final PostsResponse postsResponse = this.getPostsResponse(postsPage);
 		model.addAttribute("postsResponse",postsResponse);
 		model.addAttribute("paginationRootUrl","page");
@@ -64,8 +60,7 @@ public class BlogController extends BaseController
 								 @PathVariable(value="page", required = false) Integer page,
 								Model model) {
 		if(page == null || page < 1) page = 1;
-		PageRequest pageRequest = PageRequest.of(page-1, jBloggerConfig.getPostsPerPage());
-		Page<Post> postsPage = postService.findPostsByTag(tag, pageRequest);
+		Page<Post> postsPage = postService.findPostsByTag(tag, page);
 		final PostsResponse postsResponse = this.getPostsResponse(postsPage);
 		model.addAttribute("postsResponse",postsResponse);
 		model.addAttribute("paginationRootUrl","tags/"+tag+"/page");

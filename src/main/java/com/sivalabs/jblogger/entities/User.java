@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +45,6 @@ public class User implements Serializable
 	      name="user_role",
 	      joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
 	      inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
-	private List<Role> roles;
+	private List<Role> roles = new ArrayList<>();
 	
 }

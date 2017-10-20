@@ -82,8 +82,10 @@
 				<configuration>
 					<excludes>
 						<exclude>com/sivalabs/jblogger/entities/*</exclude>
+						<exclude>com/sivalabs/jblogger/domain/*</exclude>
+						<exclude>com/sivalabs/jblogger/exceptions/*</exclude>
+						<exclude>com/sivalabs/jblogger/config/*</exclude>
 						<exclude>com/sivalabs/jblogger/*Application</exclude>
-						<exclude>com/sivalabs/jblogger/**/*Config</exclude>
 					</excludes>
 				</configuration>
 				<executions>
