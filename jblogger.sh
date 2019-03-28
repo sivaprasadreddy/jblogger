@@ -28,7 +28,7 @@ function start_fakesmtp() {
 
 action="start"
 
-if [ $1 != "0"  ]
+if [[ $1 != "0"  ]]
 then
     action=$@
 fi

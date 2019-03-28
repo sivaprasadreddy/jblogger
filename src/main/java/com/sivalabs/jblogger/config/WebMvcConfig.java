@@ -10,7 +10,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
-import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 /**
  * @author Siva
@@ -24,7 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer
 
 	@Autowired
 	private WebRequestLogger webRequestLogger;
-	
+
 	@Override
 	public Validator getValidator()
 	{
@@ -38,7 +38,7 @@ public class WebMvcConfig implements WebMvcConfigurer
 	{
 		registry.addInterceptor(webRequestLogger);
 	}
-	
+
 	@Bean
 	public SpringSecurityDialect securityDialect()
 	{
