@@ -26,15 +26,14 @@ import com.sivalabs.jblogger.repositories.PostRepository;
  */
 @Service
 @Transactional
-public class PostService 
+public class PostService
 {
-	public static final String CREATED_ON = "createdOn";
+	private static final String CREATED_ON = "createdOn";
 
-	private PostRepository postRepository;
-	private CommentRepository commentRepository;
-	private PageViewRepository pageViewRepository;
-
-	private JBloggerConfig jBloggerConfig;
+	private final PostRepository postRepository;
+	private final CommentRepository commentRepository;
+	private final PageViewRepository pageViewRepository;
+	private final JBloggerConfig jBloggerConfig;
 
 	@Autowired
 	public PostService(PostRepository postRepository,
@@ -52,40 +51,37 @@ public class PostService
 		Sort sort = new Sort(Direction.DESC, CREATED_ON);
 		return postRepository.findAll(sort);
 	}
-	
-	public Page<Post> findPosts(int pageNo)
-	{		
-		Sort sort = new Sort(Direction.DESC, CREATED_ON);
-		int pageSize = jBloggerConfig.getPostsPerPage();
-		if(pageNo < 1){
-			pageNo = 1;
-		}
-		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
 
+	public Page<Post> findPosts(int pageNo)
+	{
+		Pageable pageable = getPageRequest(pageNo);
 		return postRepository.findAll(pageable);
 	}
-	
+
 	public Page<Post> findPostsByTag(String tag, int pageNo)
 	{
+		Pageable pageable = getPageRequest(pageNo);
+		return postRepository.findByTags(tag, pageable);
+	}
+
+	private Pageable getPageRequest(int pageNo) {
 		Sort sort = new Sort(Direction.DESC, CREATED_ON);
 		int pageSize = jBloggerConfig.getPostsPerPage();
 		if(pageNo < 1){
 			pageNo = 1;
 		}
-		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-
-		return postRepository.findByTags(tag, pageable);
+		return PageRequest.of(pageNo-1, pageSize, sort);
 	}
-	
+
 	public Optional<Post> findPostById(int postId) {
 		return postRepository.findById(postId);
 	}
-	
+
 	public Optional<Post> findPostByUrl(String url)
 	{
 		return postRepository.findByUrl(url);
 	}
-	
+
 	public Post createPost(Post post) {
 		return postRepository.save(post);
 	}
@@ -93,7 +89,7 @@ public class PostService
 	public Post updatePost(Post post) {
 		return postRepository.save(post);
 	}
-	
+
 	public void deletePost(Integer postId)
 	{
 		postRepository.deleteById(postId);
@@ -106,10 +102,10 @@ public class PostService
 	public void updateViewCount(Integer postId, Long viewCount) {
 		postRepository.updateViewCount(postId, viewCount);
 	}
-	
+
 	public void savePageView(PageView pageView)
 	{
-		pageViewRepository.save(pageView);	
+		pageViewRepository.save(pageView);
 	}
 
 	public List<Comment> findAllComments()
