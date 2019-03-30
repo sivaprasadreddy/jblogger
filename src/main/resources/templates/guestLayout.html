@@ -8,17 +8,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE"  th:text="#{app.title}">JBlogger</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-    
+
     <link rel="stylesheet" th:href="@{/assets/libs/bootstrap/css/yeti-bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/assets/css/styles.css}"/>
-    
+
     <link th:href="@{/assets/libs/syntaxhighlighter_3.0.83/styles/shCore.css}" rel="stylesheet" type="text/css" />
 	<link th:href="@{/assets/libs/syntaxhighlighter_3.0.83/styles/shThemeDefault.css}" rel="stylesheet" type="text/css" />
 
   </head>
-  
+
   <body>
-  	
+
   	<div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -30,7 +30,7 @@
           </button>
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
-          
+
           <ul class="nav navbar-nav navbar-right">
             <li sec:authorize="isAuthenticated()"><a href="#" th:href="@{/logout}">Logout</a></li>
             <li sec:authorize="isAnonymous()"><a href="#" th:href="@{/login}">Login</a></li>
@@ -48,18 +48,18 @@
 		  		</div>
 			</div>
 		</div>
-		
+
 	</div>
-  	
+
 	<footer class="footer">
 		<div class="container">
-	      <p class="text-center">SivaLabs &copy; 2016</p>
+	      <p class="text-center">SivaLabs &copy; 2019</p>
 		</div>
     </footer>
-    
+
     <script th:src="@{'/assets/libs/jquery/jquery-1.10.2.min.js'}"></script>
     <script th:src="@{'/assets/libs/bootstrap/js/bootstrap.min.js'}"></script>
-    
+
     <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shCore.js'}"></script>
     <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushJava.js'}"></script>
     <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushJScript.js'}"></script>
@@ -67,7 +67,7 @@
     <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushSql.js'}"></script>
     <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushCss.js'}"></script>
     <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushGroovy.js'}"></script>
-   
+
     <script type="text/javascript">
 	     SyntaxHighlighter.all()
 	</script>

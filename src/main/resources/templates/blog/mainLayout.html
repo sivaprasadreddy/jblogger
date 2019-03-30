@@ -8,20 +8,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE"  th:text="#{app.title}">JBlogger</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-    
+
     <link rel="stylesheet" th:href="@{/assets/libs/bootstrap/css/yeti-bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/assets/libs/CLEditor1_4_5/jquery.cleditor.css}"/>
     <link rel="stylesheet" th:href="@{/assets/libs/font-awesome-4.5.0/css/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/assets/css/styles.css}"/>
-    
+
     <link th:href="@{/assets/libs/syntaxhighlighter_3.0.83/styles/shCore.css}" rel="stylesheet" type="text/css" />
 	<link th:href="@{/assets/libs/syntaxhighlighter_3.0.83/styles/shThemeDefault.css}" rel="stylesheet" type="text/css" />
-    
+
   </head>
-  
+
   <body>
-    
-  	
+
+
   	<div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -54,7 +54,7 @@
 			</div>
 			<div class="col-md-3">
 				<div class="panel">
-					
+
 					<h3>Blog Search</h3>
 					<div class="form-group">
 					<form class="form-inline" th:action="@{/search}">
@@ -66,33 +66,33 @@
 					  </div>
 					  </form>
 					</div>
-					
+
 				</div>
 				<div class="panel">
 					<h3>Categories</h3>
 		            <div class="list-group table-of-contents">
-		               
+
 		              <div th:each="entry : ${tagPostsCountMap}">
 		              	<a class="list-group-item" href="#" th:href="@{/tags/{tag}(tag=${entry.key.label})}">
 		              		<span th:text="${entry.key.label}"></span>
 		              		<span th:text="'('+${entry.value}+')'"></span>
 		              	</a>
 		              </div>
-		              
+
 		            </div>
 	            </div>
-			</div>	
+			</div>
 		</div>
-		
+
 	</div>
-  	
+
 	<footer class="footer">
 		<div class="container">
-	      <p class="text-center">SivaLabs &copy; 2017</p>
+	      <p class="text-center">SivaLabs &copy; 2019</p>
 		</div>
 
     </footer>
-    
+
     <script th:src="@{'/assets/libs/jquery/jquery-1.10.2.min.js'}"></script>
     <script th:src="@{'/assets/libs/bootstrap/js/bootstrap.min.js'}"></script>
     <script th:src="@{'/assets/libs/CLEditor1_4_5/jquery.cleditor.min.js'}"></script>
@@ -104,15 +104,15 @@
     <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushSql.js'}"></script>
     <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushCss.js'}"></script>
     <script type="text/javascript" th:src="@{'/assets/libs/syntaxhighlighter_3.0.83/scripts/shBrushGroovy.js'}"></script>
-   
-    
+
+
     <script type="text/javascript">
 	     SyntaxHighlighter.all()
 	</script>
-	
+
     <!-- <script th:src="@{'/assets/dist/js/app.min.js'}"></script> -->
     <div layout:fragment="pageLevelScript">
-    
+
     </div>
   </body>
 </html>
