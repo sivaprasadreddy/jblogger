@@ -12,10 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-/**
- * @author Siva
- *
- */
 @Component
 public class WebRequestLogger extends HandlerInterceptorAdapter
 {
@@ -41,8 +37,10 @@ public class WebRequestLogger extends HandlerInterceptorAdapter
     }
 	
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-	        ModelAndView modelAndView) throws Exception
+	public void postHandle(HttpServletRequest request,
+						   HttpServletResponse response,
+						   Object handler,
+	        			   ModelAndView modelAndView) throws Exception
 	{
 		super.postHandle(request, response, handler, modelAndView);
 		MDC.remove(USER_CONTEXT_KEY);

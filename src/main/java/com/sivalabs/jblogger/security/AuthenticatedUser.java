@@ -8,10 +8,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * @author Siva
- *
- */
 public class AuthenticatedUser extends org.springframework.security.core.userdetails.User
 {
 

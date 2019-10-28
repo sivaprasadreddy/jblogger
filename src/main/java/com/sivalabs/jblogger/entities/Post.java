@@ -12,11 +12,6 @@ import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 
-
-/**
- * @author Siva
- *
- */
 @Entity
 @Table(name = "POSTS")
 @Data
@@ -25,9 +20,9 @@ public class Post implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="post_generator", sequenceName="post_sequence", initialValue = 100)
-	@GeneratedValue(generator = "post_generator")
-	private Integer id;
+	@SequenceGenerator(name="post_id_generator", sequenceName="post_id_seq", initialValue = 100, allocationSize=1)
+	@GeneratedValue(generator = "post_id_generator")
+	private Long id;
 
 	@Column(name = "title", nullable = false, length = 150)
 	@NotEmpty

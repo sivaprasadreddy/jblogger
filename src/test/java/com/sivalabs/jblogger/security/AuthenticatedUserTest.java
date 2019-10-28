@@ -1,19 +1,18 @@
 package com.sivalabs.jblogger.security;
 
-
 import com.sivalabs.jblogger.entities.Role;
 import com.sivalabs.jblogger.entities.User;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AuthenticatedUserTest {
+class AuthenticatedUserTest {
 
     @Test
-    public void hasNoAuthorities() throws Exception {
+    void hasNoAuthorities() {
         User user = new User();
         user.setEmail("admin@gmail.com");
         user.setPassword("pwd");
@@ -25,7 +24,7 @@ public class AuthenticatedUserTest {
     }
 
     @Test
-    public void hasAuthorities() throws Exception {
+    void hasAuthorities() {
         User user = new User();
         user.setEmail("admin@gmail.com");
         user.setPassword("pwd");

@@ -1,57 +1,54 @@
 package com.sivalabs.jblogger.web;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.sivalabs.jblogger.config.JBloggerConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.sivalabs.jblogger.entities.Post;
+import com.sivalabs.jblogger.config.ApplicationProperties;
+import com.sivalabs.jblogger.domain.PostDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Siva
- *
- */
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 @Component
+@Slf4j
 public class WebUtils
 {
-	private static final Logger logger = LoggerFactory.getLogger(WebUtils.class);
-
-	private static JBloggerConfig jBloggerConfig;
+	private static ApplicationProperties applicationProperties;
 
 	@Autowired
-	WebUtils(JBloggerConfig config) {
-		WebUtils.jBloggerConfig = config;
+	WebUtils(ApplicationProperties config) {
+		WebUtils.applicationProperties = config;
 	}
 	
-	public static String getURLWithContextPath(HttpServletRequest request)
+	public static String getTwitterShareLink(PostDTO post)
+	{
+		return applicationProperties.getTwitterShareUrl() +encode(post.getTitle())+" "+getURLWithContextPath()+"/"+post.getUrl();
+	}
+	
+	public static String getFacebookShareLink(PostDTO post)
+	{
+		return applicationProperties.getFacebookShareUrl() +"u="+getURLWithContextPath()+"/"+post.getUrl()+"&t="+encode(post.getTitle());
+	}
+	
+	public static String getLinkedInShareLink(PostDTO post)
+	{
+		return applicationProperties.getLinkedinShareUrl() +"title="+encode(post.getTitle())+"&url="+getURLWithContextPath()+"/"+post.getUrl();
+	}
+
+	private static String getURLWithContextPath()
+	{
+		return "http://localhost:8080/";
+	}
+
+	private static String getURLWithContextPath(HttpServletRequest request)
 	{
 		return request.getScheme() + "://"
 				+ request.getServerName() + ":"
 				+ request.getServerPort()
 				+ request.getContextPath();
 	}
-	
-	public static String getTwitterShareLink(HttpServletRequest request, Post post)
-	{
-		return jBloggerConfig.getTwitterShareUrl() +encode(post.getTitle())+" "+getURLWithContextPath(request)+"/posts/"+post.getUrl();
-	}
-	
-	public static String getFacebookShareLink(HttpServletRequest request, Post post)
-	{
-		return jBloggerConfig.getFacebookShareUrl() +"u="+getURLWithContextPath(request)+"/posts/"+post.getUrl()+"&t="+encode(post.getTitle());
-	}
-	
-	public static String getLinkedInShareLink(HttpServletRequest request, Post post)
-	{
-		return jBloggerConfig.getLinkedinShareUrl() +"title="+encode(post.getTitle())+"&url="+getURLWithContextPath(request)+"/posts/"+post.getUrl();
-	}
-	
+
 	private static String encode(String str)
 	{
 		try
@@ -59,8 +56,8 @@ public class WebUtils
 			return URLEncoder.encode(str, "UTF-8");
 		} catch (UnsupportedEncodingException e)
 		{
-			logger.error(e.getMessage(),e);
-			return null;
+			log.error(e.getMessage(),e);
+			return "";
 		}
 	}
 }

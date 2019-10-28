@@ -6,11 +6,6 @@ import java.time.LocalDateTime;
 import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
-
-/**
- * @author Siva
- *
- */
 public class CommonUtils
 {
 	public static LocalDateTime getStartOfDay(LocalDateTime date) {
@@ -21,7 +16,7 @@ public class CommonUtils
 		return date.toLocalDate().atTime(23, 59, 59);
 	}
 
-	public static LocalDateTime getYesterDay(LocalDateTime date) {
+	public static LocalDateTime getYesterday(LocalDateTime date) {
 		return date.minusDays(1);
 	}
 	

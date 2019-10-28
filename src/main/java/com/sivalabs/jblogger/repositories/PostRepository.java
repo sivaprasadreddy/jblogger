@@ -13,12 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import com.sivalabs.jblogger.entities.Post;
 
-/**
- * @author Siva
- * 
- */
 @Repository
-public interface PostRepository extends JpaRepository<Post, Integer>
+public interface PostRepository extends JpaRepository<Post, Long>
 {
 	@Query("SELECT p FROM Post p INNER JOIN p.tags t WHERE t.label= :tag")
 	Page<Post> findByTags(@Param("tag") String tag, Pageable pageable);
@@ -27,7 +23,7 @@ public interface PostRepository extends JpaRepository<Post, Integer>
 
 	@Modifying
 	@Query("update Post p set p.viewCount=:viewCount where p.id=:postId")
-	void updateViewCount(@Param("postId") Integer postId, @Param("viewCount") Long count);
+	void updateViewCount(@Param("postId") Long postId, @Param("viewCount") Long count);
 
 	@Query("select sum(p.viewCount) from Post p")
 	Long getTotalPostViewCount();

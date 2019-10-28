@@ -6,10 +6,6 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 import lombok.Data;
 
-/**
- * @author Siva
- *
- */
 @Entity
 @Table(name="pageviews")
 @Data
@@ -18,9 +14,9 @@ public class PageView implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@SequenceGenerator(name="pageview_generator", sequenceName="pageview_sequence", initialValue = 100)
-	@GeneratedValue(generator = "pageview_generator")
-	private Integer id;
+	@SequenceGenerator(name="pageview_id_generator", sequenceName="pageview_id_seq", initialValue = 100, allocationSize=1)
+	@GeneratedValue(generator = "pageview_id_generator")
+	private Long id;
 	
 	private String url;
 	

@@ -22,10 +22,6 @@ function build_app() {
     ./mvnw clean package -DskipTests
 }
 
-function start_fakesmtp() {
-    nohup java -jar support/fakesmtp/fakesmtp-2.0.jar -s -m -p 2525 -a 127.0.0.1 &
-}
-
 action="start"
 
 if [[ $1 != "0"  ]]

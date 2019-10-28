@@ -17,10 +17,6 @@ import com.sivalabs.jblogger.services.BlogService;
 import com.sivalabs.jblogger.services.EmailService;
 import com.sivalabs.jblogger.services.TagService;
 
-/**
- * @author Siva
- *
- */
 public abstract class BaseController
 {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());

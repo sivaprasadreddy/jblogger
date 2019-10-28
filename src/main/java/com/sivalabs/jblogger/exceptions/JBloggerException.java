@@ -1,9 +1,5 @@
 package com.sivalabs.jblogger.exceptions;
 
-/**
- * @author Siva
- *
- */
 public class JBloggerException extends RuntimeException
 {
 

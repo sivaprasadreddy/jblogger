@@ -1,6 +1,6 @@
 package com.sivalabs.jblogger.services;
 
-import com.sivalabs.jblogger.config.JBloggerConfig;
+import com.sivalabs.jblogger.config.ApplicationProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -11,27 +11,23 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
-/**
- * @author Siva
- *
- */
 @Component
 @Slf4j
 public class EmailService
 {
-	private JBloggerConfig jBloggerConfig;
-	private JavaMailSender javaMailSender;
+	private final ApplicationProperties applicationProperties;
+	private final JavaMailSender javaMailSender;
 
 	@Autowired
-	public EmailService(JBloggerConfig jBloggerConfig, JavaMailSender javaMailSender) {
-		this.jBloggerConfig = jBloggerConfig;
+	public EmailService(ApplicationProperties applicationProperties, JavaMailSender javaMailSender) {
+		this.applicationProperties = applicationProperties;
 		this.javaMailSender = javaMailSender;
 	}
 
 	@Async
 	public CompletableFuture<Void> send(String subject, String content)
 	{
-		String supportEmail = jBloggerConfig.getSupportEmail();
+		String supportEmail = applicationProperties.getSupportEmail();
 		
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(supportEmail);

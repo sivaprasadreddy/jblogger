@@ -1,17 +1,15 @@
 package com.sivalabs.jblogger.config;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
-/**
- * @author Siva
- *
- */
-@Component
-@ConfigurationProperties(prefix="jblogger")
-@Data
-public class JBloggerConfig
+@ConfigurationProperties(prefix="application")
+@ConstructorBinding
+@AllArgsConstructor
+@Getter
+public class ApplicationProperties
 {
 	private int postsPerPage;
 	private String supportEmail;

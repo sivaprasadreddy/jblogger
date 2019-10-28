@@ -3,7 +3,10 @@ package com.sivalabs.jblogger.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.sivalabs.jblogger.config.JBloggerConfig;
+import com.sivalabs.jblogger.config.ApplicationProperties;
+import com.sivalabs.jblogger.domain.PostDTO;
+import com.sivalabs.jblogger.domain.PostsResponse;
+import com.sivalabs.jblogger.mappers.PostsResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,10 +23,6 @@ import com.sivalabs.jblogger.repositories.CommentRepository;
 import com.sivalabs.jblogger.repositories.PageViewRepository;
 import com.sivalabs.jblogger.repositories.PostRepository;
 
-/**
- * @author Siva
- *
- */
 @Service
 @Transactional
 public class PostService
@@ -33,53 +32,57 @@ public class PostService
 	private final PostRepository postRepository;
 	private final CommentRepository commentRepository;
 	private final PageViewRepository pageViewRepository;
-	private final JBloggerConfig jBloggerConfig;
+	private final PostsResponseMapper postsResponseMapper;
+	private final ApplicationProperties applicationProperties;
 
 	@Autowired
 	public PostService(PostRepository postRepository,
 					   CommentRepository commentRepository,
 					   PageViewRepository pageViewRepository,
-					   JBloggerConfig jBloggerConfig) {
+					   PostsResponseMapper postsResponseMapper,
+					   ApplicationProperties applicationProperties) {
 		this.postRepository = postRepository;
 		this.commentRepository = commentRepository;
 		this.pageViewRepository = pageViewRepository;
-		this.jBloggerConfig = jBloggerConfig;
+		this.postsResponseMapper = postsResponseMapper;
+		this.applicationProperties = applicationProperties;
 	}
 
-	public List<Post> findAllPosts()
+	public List<PostDTO> findAllPosts()
 	{
-		Sort sort = new Sort(Direction.DESC, CREATED_ON);
-		return postRepository.findAll(sort);
+		Sort sort = Sort.by(Direction.DESC, CREATED_ON);
+		List<Post> postList = postRepository.findAll(sort);
+		return this.postsResponseMapper.map(postList);
 	}
 
-	public Page<Post> findPosts(int pageNo)
+	public PostsResponse findPosts(Integer pageNo)
+	{
+		Pageable pageable = this.getPageRequest(pageNo);
+		Page<Post> postsPage = postRepository.findAll(pageable);
+		return this.postsResponseMapper.map(postsPage);
+	}
+
+	public PostsResponse findPostsByTag(String tag, Integer pageNo)
 	{
 		Pageable pageable = getPageRequest(pageNo);
-		return postRepository.findAll(pageable);
+		Page<Post> postsPage = postRepository.findByTags(tag, pageable);
+		return this.postsResponseMapper.map(postsPage);
 	}
 
-	public Page<Post> findPostsByTag(String tag, int pageNo)
-	{
-		Pageable pageable = getPageRequest(pageNo);
-		return postRepository.findByTags(tag, pageable);
-	}
-
-	private Pageable getPageRequest(int pageNo) {
-		Sort sort = new Sort(Direction.DESC, CREATED_ON);
-		int pageSize = jBloggerConfig.getPostsPerPage();
-		if(pageNo < 1){
-			pageNo = 1;
-		}
+	private Pageable getPageRequest(Integer pageNo) {
+		Sort sort = Sort.by(Direction.DESC, CREATED_ON);
+		int pageSize = applicationProperties.getPostsPerPage();
+		if(pageNo == null || pageNo < 1) pageNo = 1;
 		return PageRequest.of(pageNo-1, pageSize, sort);
 	}
 
-	public Optional<Post> findPostById(int postId) {
+	public Optional<Post> findPostById(Long postId) {
 		return postRepository.findById(postId);
 	}
 
-	public Optional<Post> findPostByUrl(String url)
+	public Optional<PostDTO> findPostByUrl(String url)
 	{
-		return postRepository.findByUrl(url);
+		return postRepository.findByUrl(url).map(this.postsResponseMapper::map);
 	}
 
 	public Post createPost(Post post) {
@@ -90,16 +93,18 @@ public class PostService
 		return postRepository.save(post);
 	}
 
-	public void deletePost(Integer postId)
+	public void deletePost(Long postId)
 	{
 		postRepository.deleteById(postId);
 	}
 
-	public List<Post> searchPosts(String query) {
-		return postRepository.searchPosts("%"+query.toLowerCase()+"%");
+	public List<PostDTO> searchPosts(String query) {
+		return this.postsResponseMapper.map(
+				postRepository.searchPosts("%"+query.toLowerCase()+"%")
+		);
 	}
 
-	public void updateViewCount(Integer postId, Long viewCount) {
+	public void updateViewCount(Long postId, Long viewCount) {
 		postRepository.updateViewCount(postId, viewCount);
 	}
 
@@ -110,7 +115,7 @@ public class PostService
 
 	public List<Comment> findAllComments()
 	{
-		Sort sort = new Sort(Direction.DESC, CREATED_ON);
+		Sort sort = Sort.by(Direction.DESC, CREATED_ON);
 		return commentRepository.findAll(sort);
 	}
 
@@ -118,7 +123,7 @@ public class PostService
 		return commentRepository.save(comment);
 	}
 
-	public void deleteComment(Integer commentId)
+	public void deleteComment(Long commentId)
 	{
 		commentRepository.deleteById(commentId);
 	}

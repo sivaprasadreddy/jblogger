@@ -14,10 +14,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
-/**
- * @author Siva
- *
- */
 @Service
 @Transactional
 public class TagService
@@ -33,7 +29,7 @@ public class TagService
 		return tagRepository.findByLabelLike(query+"%");
 	}
 	
-	public Optional<Tag> findById(Integer id){
+	public Optional<Tag> findById(Long id){
 		return tagRepository.findById(id);
 	}
 
@@ -64,7 +60,7 @@ public class TagService
 		List<Object[]> tagsWithCount = tagRepository.getTagsWithCount();
 		for (Object[] objects : tagsWithCount) {
 			Tag tag = new Tag();
-			tag.setId(Integer.parseInt(String.valueOf(objects[0])));
+			tag.setId(Long.parseLong(String.valueOf(objects[0])));
 			tag.setLabel(String.valueOf(objects[1]));
 			Integer count = Integer.parseInt(String.valueOf(objects[2]));
 			map.put(tag, count);

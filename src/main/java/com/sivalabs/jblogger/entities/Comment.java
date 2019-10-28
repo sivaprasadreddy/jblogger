@@ -2,17 +2,12 @@ package com.sivalabs.jblogger.entities;
 
 import lombok.Data;
 import org.hibernate.annotations.Type;
-
+import org.hibernate.type.ClobType;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-/**
- * @author Siva
- *
- */
 
 @Entity
 @Table(name = "COMMENTS")
@@ -21,9 +16,9 @@ public class Comment implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	@Id
-	@SequenceGenerator(name="comment_generator", sequenceName="comment_sequence", initialValue = 100)
-	@GeneratedValue(generator = "comment_generator")
-	private Integer id;
+	@SequenceGenerator(name="comment_id_generator", sequenceName="comment_id_seq", initialValue = 100, allocationSize=1)
+	@GeneratedValue(generator = "comment_id_generator")
+	private Long id;
 	
 	@Column(name = "name", nullable = false, length = 150)
 	@NotEmpty

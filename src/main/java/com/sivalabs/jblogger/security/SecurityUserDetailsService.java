@@ -12,18 +12,14 @@ import com.sivalabs.jblogger.entities.User;
 
 import java.util.Optional;
 
-/**
- * @author Siva
- *
- */
-@Service
+@Service("userDetailsService")
 @Transactional
-public class JBloggerUserDetailsService implements UserDetailsService
+public class SecurityUserDetailsService implements UserDetailsService
 {
 	private UserRepository userRepository;
 
 	@Autowired
-	public JBloggerUserDetailsService(UserRepository userRepository) {
+	public SecurityUserDetailsService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 

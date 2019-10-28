@@ -26,17 +26,13 @@ import com.sivalabs.jblogger.services.EmailService;
 import com.sivalabs.jblogger.services.PostService;
 import com.sivalabs.jblogger.services.TagService;
 
-/**
- * @author Siva
- *
- */
 @Controller
 public class AdminController
 {	
-	private EmailService emailService;
-	private BlogService blogService;
-	private PostService postService;
-	private TagService tagService;
+	private final EmailService emailService;
+	private final BlogService blogService;
+	private final PostService postService;
+	private final TagService tagService;
 
 	@Autowired
 	public AdminController(EmailService emailService, BlogService blogService,
@@ -52,7 +48,7 @@ public class AdminController
 		return "login";
 	}
 
-	@RequestMapping("/admin/dashboard")
+	@GetMapping("/admin/dashboard")
 	public String dashboard(@RequestParam(value="timePeriod", defaultValue="TODAY") String timePeriod,
 							Model model)
 	{
@@ -61,14 +57,14 @@ public class AdminController
 		return "admin/dashboard";
 	}
 	
-	@RequestMapping(value="/admin/posts/newpost", method=RequestMethod.GET)
+	@GetMapping(value="/admin/posts/newpost")
 	public String newPostForm(Model model) {
 		Post post = new Post();
 		model.addAttribute("post", post);
 		return "admin/newpost";
 	}
 	
-	@RequestMapping(value="/admin/posts", method=RequestMethod.POST)
+	@PostMapping(value="/admin/posts")
 	public String createPost(@Valid @ModelAttribute("post") Post post, 
 							BindingResult result, 
 							Model model, HttpServletRequest request) {
@@ -95,8 +91,8 @@ public class AdminController
 		return "redirect:/"+createdPost.getUrl();
 	}
 	
-	@RequestMapping(value="/admin/posts/{postId}/edit", method=RequestMethod.GET)
-	public String editPostForm(@PathVariable("postId") Integer postId,
+	@GetMapping("/admin/posts/{postId}/edit")
+	public String editPostForm(@PathVariable("postId") Long postId,
 							   HttpServletResponse response,
 							   Model model) throws IOException {
 		Optional<Post> post = postService.findPostById(postId);
@@ -109,8 +105,8 @@ public class AdminController
 		return "admin/editpost";
 	}
 	
-	@RequestMapping(value="/admin/posts/{postId}", method=RequestMethod.POST)
-	public String updatePost(@PathVariable("postId") Integer postId,
+	@PostMapping("/admin/posts/{postId}")
+	public String updatePost(@PathVariable("postId") Long postId,
 							 @Valid @ModelAttribute("post") Post post,
 							 BindingResult result,
 							 Model model,
@@ -144,45 +140,45 @@ public class AdminController
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/admin/posts/{postId}/delete", method=RequestMethod.DELETE)
-	public String deletePost(@PathVariable("postId") Integer postId) 
+	@DeleteMapping("/admin/posts/{postId}/delete")
+	public String deletePost(@PathVariable("postId") Long postId)
 	{
 		postService.deletePost(postId);		
 		return "success";
 	}
 	
-	@RequestMapping("/admin/posts")
+	@GetMapping("/admin/posts")
 	public String posts(Model model)
 	{
 		model.addAttribute("posts", postService.findAllPosts());
 		return "admin/posts";
 	}
 	
-	@RequestMapping("/admin/comments")
+	@GetMapping("/admin/comments")
 	public String comments(Model model)
 	{
 		model.addAttribute("comments", postService.findAllComments());
 		return "admin/comments";
 	}
 	
-	@RequestMapping("/admin/comments/delete")
+	@PostMapping("/admin/comments/delete")
 	public String deleteComments(HttpServletRequest request)
 	{
 		String[] commentIds = request.getParameterValues("comments");
 		for (String id : commentIds) {
-			postService.deleteComment(Integer.valueOf(id));			
+			postService.deleteComment(Long.valueOf(id));
 		}
 		return "redirect:/admin/comments";
 	}
 	
-	@RequestMapping("/admin/tags")
+	@GetMapping("/admin/tags")
 	public String tags(Model model)
 	{
 		model.addAttribute("tags", tagService.findAllTags());
 		return "admin/tags";
 	}
 	
-	@RequestMapping("/admin/tagsJson")
+	@GetMapping("/admin/tagsJson")
 	@ResponseBody
 	public List<Tag> tagsJSON()
 	{
@@ -205,7 +201,7 @@ public class AdminController
 			if(StringUtils.isEmpty(label)) continue;
 			Tag tag;
 			try {
-				Integer tagId = Integer.parseInt(label.trim());
+				Long tagId = Long.parseLong(label.trim());
 				tag = tagService.findById(tagId).orElse(null);
 			}catch (NumberFormatException e){
 				tag = tagService.findByLabel(label.trim()).orElse(null);

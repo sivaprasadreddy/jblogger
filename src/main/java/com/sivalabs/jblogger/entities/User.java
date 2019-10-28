@@ -10,10 +10,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Siva
- *
- */
 @Entity
 @Table(name="users")
 @Data
@@ -22,9 +18,9 @@ public class User implements Serializable
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@SequenceGenerator(name="user_generator", sequenceName="user_sequence", initialValue = 100)
-	@GeneratedValue(generator = "user_generator")
-	private Integer id;
+	@SequenceGenerator(name="user_id_generator", sequenceName="user_id_seq", initialValue = 100, allocationSize=1)
+	@GeneratedValue(generator = "user_id_generator")
+	private Long id;
 	
 	@Column(nullable=false)
 	@NotEmpty()

@@ -2,10 +2,6 @@ package com.sivalabs.jblogger.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
-/**
- * @author Siva
- *
- */
 public class SecurityUtils
 {
 	private SecurityUtils() {

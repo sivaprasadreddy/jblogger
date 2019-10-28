@@ -5,12 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.sivalabs.jblogger.entities.Comment;
 
-/**
- * @author Siva
- * 
- */
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, Integer>
+public interface CommentRepository extends JpaRepository<Comment, Long>
 {
 
 }

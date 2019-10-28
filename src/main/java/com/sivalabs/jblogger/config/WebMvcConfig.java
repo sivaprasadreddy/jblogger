@@ -12,10 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
-/**
- * @author Siva
- *
- */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer
 {

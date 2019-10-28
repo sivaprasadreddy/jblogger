@@ -15,17 +15,13 @@ import com.sivalabs.jblogger.repositories.PageViewRepository;
 import com.sivalabs.jblogger.repositories.PostRepository;
 import com.sivalabs.jblogger.utils.CommonUtils;
 
-/**
- * @author Siva
- *
- */
 @Service
 @Transactional
 public class BlogService 
 {
-	private PostRepository postRepository;
-	private CommentRepository commentRepository;
-	private PageViewRepository pageViewRepository;
+	private final PostRepository postRepository;
+	private final CommentRepository commentRepository;
+	private final PageViewRepository pageViewRepository;
 
 	@Autowired
 	public BlogService(PostRepository postRepository, CommentRepository commentRepository, PageViewRepository pageViewRepository) {
@@ -50,7 +46,7 @@ public class BlogService
 		long todayViewCount = pageViewRepository.countByVisitTimeBetween(startDate, endDate);
 		overview.setTodayViewCount(todayViewCount);
 
-		LocalDateTime yesterday = CommonUtils.getYesterDay(today);
+		LocalDateTime yesterday = CommonUtils.getYesterday(today);
 		startDate = CommonUtils.getStartOfDay(yesterday);
 		endDate = CommonUtils.getEndOfDay(yesterday);
 		long yesterdayViewCount = pageViewRepository.countByVisitTimeBetween(startDate, endDate);

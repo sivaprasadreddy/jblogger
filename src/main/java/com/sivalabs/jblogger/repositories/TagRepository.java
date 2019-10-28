@@ -9,12 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.sivalabs.jblogger.entities.Tag;
 
-/**
- * @author Siva
- * 
- */
 @Repository
-public interface TagRepository extends JpaRepository<Tag, Integer>
+public interface TagRepository extends JpaRepository<Tag, Long>
 {
 
 	List<Tag> findByLabelLike(String query);

@@ -8,10 +8,6 @@ import com.sivalabs.jblogger.entities.PageView;
 import com.sivalabs.jblogger.entities.Post;
 import lombok.Data;
 
-/**
- * @author Siva
- *
- */
 @Data
 public class BlogOverview
 {

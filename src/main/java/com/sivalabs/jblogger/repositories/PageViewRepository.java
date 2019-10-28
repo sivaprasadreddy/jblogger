@@ -8,12 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.sivalabs.jblogger.entities.PageView;
 
-/**
- * @author Siva
- * 
- */
 @Repository
-public interface PageViewRepository extends JpaRepository<PageView, Integer>
+public interface PageViewRepository extends JpaRepository<PageView, Long>
 {
 	Long countByVisitTimeBetween(LocalDateTime startDate, LocalDateTime endDate);
 

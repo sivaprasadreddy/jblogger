@@ -18,14 +18,14 @@
 		                		th:text="${post.title}">post title</a> 
 		                </h3>
 		                <div>
-		                	<i class="fa fa-user"></i> <strong th:text="${post.createdBy.name}">Admin</strong>
+		                	<i class="fa fa-user"></i> <strong th:text="${post.createdByUserName}">Admin</strong>
 		                	&nbsp;&nbsp;
 		                	<i class="fa fa-calendar"></i> <strong th:text="${#temporals.format(post.createdOn,'dd MMMM yyyy')}">Date</strong>
 		                	&nbsp;&nbsp;
 		                	<span th:if="${not post.tags.isEmpty()}" >
 							<i class="fa fa-tag"></i> 
 							<span th:each="tag : ${post.tags}">
-								<a class="label label-primary" th:text="${tag.label}" th:href="@{/tags/{tag}(tag=${tag.label})}">Tag</a>
+								<a class="label label-primary" th:text="${tag}" th:href="@{/tags/{tag}(tag=${tag})}">Tag</a>
 							</span>
 		                	</span>
 						</div>		                
@@ -37,11 +37,11 @@
 		                </div>
 		                <div class="social-share">
 							<strong>Share on</strong>
-							<a class="btn" th:href="${T(com.sivalabs.jblogger.web.WebUtils).getTwitterShareLink(#httpServletRequest, post)}" 
+							<a class="btn" th:href="${post.twitterShareLink}"
 										target="_blank" title="Share on Twitter"><i class="fa fa-twitter" aria-hidden="true"></i>Twitter</a>
-							<a class="btn" th:href="${T(com.sivalabs.jblogger.web.WebUtils).getFacebookShareLink(#httpServletRequest, post)}" 
+							<a class="btn" th:href="${post.facebookShareLink}"
 										target="_blank" title="Share on Facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i>Facebook</a>
-							<a class="btn" th:href="${T(com.sivalabs.jblogger.web.WebUtils).getLinkedInShareLink(#httpServletRequest, post)}" 
+							<a class="btn" th:href="${post.linkedInShareLink}"
 										target="_blank" title="Share on LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
 						</div>
 		            </div>
