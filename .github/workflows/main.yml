@@ -11,6 +11,3 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: Run SonarCloud Checks
-      run: mvn -B org.sonarsource.scanner.maven:sonar --file pom.xml
-
