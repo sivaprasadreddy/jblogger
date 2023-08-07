@@ -2,21 +2,20 @@ package com.sivalabs.jblogger.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
-public class SecurityUtils
-{
-	private SecurityUtils() {
-	}
+public class SecurityUtils {
+    private SecurityUtils() {}
 
-	public static AuthenticatedUser getCurrentUser() {
+    public static AuthenticatedUser getCurrentUser() {
 
-	    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	    if (principal instanceof AuthenticatedUser) {
-	    	return (AuthenticatedUser) principal;
-	    }
-	    return null;
-	}
+        Object principal =
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof AuthenticatedUser) {
+            return (AuthenticatedUser) principal;
+        }
+        return null;
+    }
 
-	public static boolean isLoggedIn() {
-	    return getCurrentUser() != null;
-	}
+    public static boolean isLoggedIn() {
+        return getCurrentUser() != null;
+    }
 }

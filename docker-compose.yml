@@ -1,21 +1,30 @@
-version: '2'
-
+version: '3'
 services:
-  postgres:
-    image: postgres
+  jbloggerdb:
+    image: postgres:15.3-alpine
     container_name: "jbloggerdb"
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin123
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   jblogger:
     build: .
     container_name: jblogger
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_URL: jdbc:postgresql://jbloggerdb:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
     ports:
      - "9090:8080"
-     - '9797:8787'
     depends_on:
       - postgres

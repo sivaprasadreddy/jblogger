@@ -1,10 +1,9 @@
 package com.sivalabs.jblogger.utils;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 class CommonUtilsTest {
 
@@ -45,48 +44,47 @@ class CommonUtilsTest {
 
     @Test
     void getWeekStartDay() {
-        LocalDateTime now = LocalDateTime.of(2017,10,19,10,10,20);
-        LocalDateTime expected = LocalDateTime.of(2017,10,16,10,10,20);
+        LocalDateTime now = LocalDateTime.of(2017, 10, 19, 10, 10, 20);
+        LocalDateTime expected = LocalDateTime.of(2017, 10, 16, 10, 10, 20);
         final LocalDateTime weekStartDay = CommonUtils.getWeekStartDay(now);
         assertThat(weekStartDay).isEqualTo(expected);
     }
 
     @Test
     void getWeekEndDay() {
-        LocalDateTime now = LocalDateTime.of(2017,10,19,10,10,20);
-        LocalDateTime expected = LocalDateTime.of(2017,10,22,10,10,20);
+        LocalDateTime now = LocalDateTime.of(2017, 10, 19, 10, 10, 20);
+        LocalDateTime expected = LocalDateTime.of(2017, 10, 22, 10, 10, 20);
         final LocalDateTime weekEndDay = CommonUtils.getWeekEndDay(now);
         assertThat(weekEndDay).isEqualTo(expected);
     }
 
     @Test
     void getMonthStartDay() {
-        LocalDateTime now = LocalDateTime.of(2017,10,19,10,10,20);
-        LocalDateTime expected = LocalDateTime.of(2017,10,1,10,10,20);
+        LocalDateTime now = LocalDateTime.of(2017, 10, 19, 10, 10, 20);
+        LocalDateTime expected = LocalDateTime.of(2017, 10, 1, 10, 10, 20);
         final LocalDateTime monthStartDay = CommonUtils.getMonthStartDay(now);
         assertThat(monthStartDay).isEqualTo(expected);
     }
 
     @Test
     void getMonthEndDay() {
-        LocalDateTime now = LocalDateTime.of(2017,10,19,10,10,20);
-        LocalDateTime expected = LocalDateTime.of(2017,10,31,10,10,20);
+        LocalDateTime now = LocalDateTime.of(2017, 10, 19, 10, 10, 20);
+        LocalDateTime expected = LocalDateTime.of(2017, 10, 31, 10, 10, 20);
         final LocalDateTime monthEndDay = CommonUtils.getMonthEndDay(now);
         assertThat(monthEndDay).isEqualTo(expected);
     }
 
     @Test
     void getDummyVeryOldDate() {
-        LocalDateTime expected = LocalDateTime.of(1900,1,1,1,1,1,1);
+        LocalDateTime expected = LocalDateTime.of(1900, 1, 1, 1, 1, 1, 1);
         final LocalDateTime veryOldDate = CommonUtils.getDummyVeryOldDate();
         assertThat(veryOldDate).isEqualTo(expected);
     }
 
     @Test
     void getDummyVeryNewDate() {
-        LocalDateTime expected = LocalDateTime.of(9999,1,31,23,59,59,1);
+        LocalDateTime expected = LocalDateTime.of(9999, 1, 31, 23, 59, 59, 1);
         final LocalDateTime veryNewDate = CommonUtils.getDummyVeryNewDate();
         assertThat(veryNewDate).isEqualTo(expected);
     }
-
 }

@@ -1,13 +1,12 @@
 package com.sivalabs.jblogger.security;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.sivalabs.jblogger.entities.Role;
 import com.sivalabs.jblogger.entities.User;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 class AuthenticatedUserTest {
 

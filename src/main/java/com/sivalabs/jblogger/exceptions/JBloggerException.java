@@ -1,27 +1,20 @@
 package com.sivalabs.jblogger.exceptions;
 
-public class JBloggerException extends RuntimeException
-{
+public class JBloggerException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public JBloggerException()
-	{
-	}
+    public JBloggerException() {}
 
-	public JBloggerException(String message)
-	{
-		super(message);
-	}
+    public JBloggerException(String message) {
+        super(message);
+    }
 
-	public JBloggerException(Throwable cause)
-	{
-		super(cause);
-	}
+    public JBloggerException(Throwable cause) {
+        super(cause);
+    }
 
-	public JBloggerException(String message, Throwable cause)
-	{
-		super(message, cause);
-	}
-
+    public JBloggerException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

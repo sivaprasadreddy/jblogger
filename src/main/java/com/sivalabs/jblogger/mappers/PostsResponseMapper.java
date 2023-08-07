@@ -7,14 +7,13 @@ import com.sivalabs.jblogger.domain.PostsResponse;
 import com.sivalabs.jblogger.entities.Comment;
 import com.sivalabs.jblogger.entities.Post;
 import com.sivalabs.jblogger.entities.Tag;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Component;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
@@ -28,7 +27,7 @@ public class PostsResponseMapper {
 
     public PostsResponse map(Page<Post> postsPage) {
         PostsResponse postsResponse = new PostsResponse();
-        postsResponse.setCurrentPageNo(postsPage.getNumber()+1);
+        postsResponse.setCurrentPageNo(postsPage.getNumber() + 1);
         postsResponse.setTotalPages(postsPage.getTotalPages());
         postsResponse.setTotalPosts(postsPage.getNumberOfElements());
         postsResponse.setHasNextPage(postsPage.hasNext());
@@ -68,41 +67,35 @@ public class PostsResponseMapper {
                 .content(comment.getContent())
                 .createdOn(comment.getCreatedOn())
                 .updatedOn(comment.getUpdatedOn())
-
                 .build();
     }
 
-    private String getTwitterShareLink(Post post)
-    {
-        return applicationProperties.getTwitterShareUrl() +encode(post.getTitle())+" "+getURLWithContextPath()+"/"+post.getUrl();
+    private String getTwitterShareLink(Post post) {
+        return applicationProperties.getTwitterShareUrl() + encode(post.getTitle()) + " " + getURLWithContextPath()
+                + "/" + post.getUrl();
     }
 
-    private String getFacebookShareLink(Post post)
-    {
-        return applicationProperties.getFacebookShareUrl() +"u="+getURLWithContextPath()+"/"+post.getUrl()+"&t="+encode(post.getTitle());
+    private String getFacebookShareLink(Post post) {
+        return applicationProperties.getFacebookShareUrl() + "u=" + getURLWithContextPath() + "/" + post.getUrl()
+                + "&t=" + encode(post.getTitle());
     }
 
-    private String getLinkedInShareLink(Post post)
-    {
-        return applicationProperties.getLinkedinShareUrl() +"title="+encode(post.getTitle())+"&url="+getURLWithContextPath()+"/"+post.getUrl();
+    private String getLinkedInShareLink(Post post) {
+        return applicationProperties.getLinkedinShareUrl() + "title=" + encode(post.getTitle()) + "&url="
+                + getURLWithContextPath() + "/" + post.getUrl();
     }
 
-    //TODO; make it dynamic
-    private static String getURLWithContextPath()
-    {
+    // TODO; make it dynamic
+    private static String getURLWithContextPath() {
         return "http://localhost:8080";
     }
 
-    private static String encode(String str)
-    {
-        try
-        {
+    private static String encode(String str) {
+        try {
             return URLEncoder.encode(str, "UTF-8");
-        } catch (UnsupportedEncodingException e)
-        {
-            log.error(e.getMessage(),e);
+        } catch (UnsupportedEncodingException e) {
+            log.error(e.getMessage(), e);
             return "";
         }
     }
-
 }

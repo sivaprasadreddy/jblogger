@@ -3,10 +3,8 @@ package com.sivalabs.jblogger;
 import com.sivalabs.jblogger.common.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 
-class JBloggerApplicationIT extends AbstractIntegrationTest {
+class JBloggerApplicationTests extends AbstractIntegrationTest {
 
     @Test
-    void shouldLoadContext() {
-
-    }
+    void shouldLoadContext() {}
 }

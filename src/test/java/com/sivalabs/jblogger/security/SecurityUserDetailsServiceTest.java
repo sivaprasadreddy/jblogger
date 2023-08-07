@@ -1,7 +1,12 @@
 package com.sivalabs.jblogger.security;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
 import com.sivalabs.jblogger.entities.User;
 import com.sivalabs.jblogger.repositories.UserRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,12 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SecurityUserDetailsServiceTest {
@@ -26,7 +25,7 @@ class SecurityUserDetailsServiceTest {
     SecurityUserDetailsService securityUserDetailsService;
 
     @Test
-    void loadUserByUsername() throws Exception {
+    void loadUserByUsername() {
         String email = "admin@gmail.com";
         final User domainUser = new User();
         domainUser.setEmail(email);
@@ -47,6 +46,5 @@ class SecurityUserDetailsServiceTest {
         assertThrows(UsernameNotFoundException.class, () -> {
             securityUserDetailsService.loadUserByUsername(email);
         });
-
     }
 }
