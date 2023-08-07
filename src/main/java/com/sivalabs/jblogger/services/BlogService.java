@@ -9,7 +9,6 @@ import com.sivalabs.jblogger.repositories.PostRepository;
 import com.sivalabs.jblogger.utils.CommonUtils;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,6 @@ public class BlogService {
     private final CommentRepository commentRepository;
     private final PageViewRepository pageViewRepository;
 
-    @Autowired
     public BlogService(
             PostRepository postRepository, CommentRepository commentRepository, PageViewRepository pageViewRepository) {
         this.postRepository = postRepository;

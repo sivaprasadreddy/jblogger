@@ -13,7 +13,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true, proxyTargetClass = true)
+@EnableMethodSecurity
 public class WebSecurityConfig {
 
     @Bean

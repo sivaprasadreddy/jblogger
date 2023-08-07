@@ -1,7 +1,6 @@
 package com.sivalabs.jblogger.domain;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.sivalabs.jblogger.entities.PageView;
 import com.sivalabs.jblogger.entities.Post;
@@ -13,14 +12,14 @@ import org.junit.jupiter.api.Test;
 class BlogOverviewTest {
 
     @Test
-    void getPostViewCountMapShouldReturnEmptyMapWhenNoPageViews() throws Exception {
+    void getPostViewCountMapShouldReturnEmptyMapWhenNoPageViews() {
         BlogOverview overview = new BlogOverview();
         final Map<Post, Long> viewCountMap = overview.getPostViewCountMap();
-        assertTrue(viewCountMap.isEmpty());
+        assertThat(viewCountMap).isEmpty();
     }
 
     @Test
-    void getPostViewCountMap() throws Exception {
+    void getPostViewCountMap() {
         BlogOverview overview = new BlogOverview();
         List<PageView> pageViews = new ArrayList<>();
 
@@ -43,7 +42,7 @@ class BlogOverviewTest {
         overview.setPageViews(pageViews);
 
         final Map<Post, Long> viewCountMap = overview.getPostViewCountMap();
-        assertEquals(2, (long) viewCountMap.get(p1));
-        assertEquals(1, (long) viewCountMap.get(p2));
+        assertThat(viewCountMap.get(p1)).isEqualTo(2);
+        assertThat(viewCountMap.get(p2)).isEqualTo(1);
     }
 }

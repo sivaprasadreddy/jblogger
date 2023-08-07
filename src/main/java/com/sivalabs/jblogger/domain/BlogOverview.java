@@ -24,10 +24,7 @@ public class BlogOverview {
 
         for (PageView pageView : pageViews) {
             Post post = pageView.getPost();
-            if (!map.containsKey(post)) {
-                map.put(post, 0L);
-            }
-            map.put(post, map.get(post) + 1);
+            map.compute(post, (k, v) -> (v == null) ? 1 : v + 1);
         }
         return map;
     }

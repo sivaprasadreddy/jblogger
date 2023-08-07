@@ -25,7 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class BlogController extends BaseController {
+public class BlogController {
     private static final String viewsDir = "blog/";
     private final PostService postService;
     private final TagService tagService;

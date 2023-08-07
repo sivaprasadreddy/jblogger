@@ -7,22 +7,19 @@ import com.sivalabs.jblogger.domain.PostsResponse;
 import com.sivalabs.jblogger.entities.Comment;
 import com.sivalabs.jblogger.entities.Post;
 import com.sivalabs.jblogger.entities.Tag;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 @Component
-@Slf4j
 public class PostsResponseMapper {
 
-    private final ApplicationProperties applicationProperties;
+    private final ApplicationProperties properties;
 
-    public PostsResponseMapper(ApplicationProperties applicationProperties) {
-        this.applicationProperties = applicationProperties;
+    public PostsResponseMapper(ApplicationProperties properties) {
+        this.properties = properties;
     }
 
     public PostsResponse map(Page<Post> postsPage) {
@@ -32,12 +29,12 @@ public class PostsResponseMapper {
         postsResponse.setTotalPosts(postsPage.getNumberOfElements());
         postsResponse.setHasNextPage(postsPage.hasNext());
         postsResponse.setHasPreviousPage(postsPage.hasPrevious());
-        postsResponse.setPosts(postsPage.getContent().stream().map(this::map).collect(Collectors.toList()));
+        postsResponse.setPosts(postsPage.getContent().stream().map(this::map).toList());
         return postsResponse;
     }
 
     public List<PostDTO> map(List<Post> postList) {
-        return postList.stream().map(this::map).collect(Collectors.toList());
+        return postList.stream().map(this::map).toList();
     }
 
     public PostDTO map(Post post) {
@@ -51,8 +48,8 @@ public class PostsResponseMapper {
                 .createdOn(post.getCreatedOn())
                 .updatedOn(post.getUpdatedOn())
                 .viewCount(post.getViewCount())
-                .tags(post.getTags().stream().map(Tag::getLabel).collect(Collectors.toList()))
-                .comments(post.getComments().stream().map(this::map).collect(Collectors.toList()))
+                .tags(post.getTags().stream().map(Tag::getLabel).toList())
+                .comments(post.getComments().stream().map(this::map).toList())
                 .facebookShareLink(getFacebookShareLink(post))
                 .twitterShareLink(getTwitterShareLink(post))
                 .linkedInShareLink(getLinkedInShareLink(post))
@@ -71,18 +68,18 @@ public class PostsResponseMapper {
     }
 
     private String getTwitterShareLink(Post post) {
-        return applicationProperties.getTwitterShareUrl() + encode(post.getTitle()) + " " + getURLWithContextPath()
-                + "/" + post.getUrl();
+        return properties.getTwitterShareUrl() + encode(post.getTitle()) + " " + getURLWithContextPath() + "/"
+                + post.getUrl();
     }
 
     private String getFacebookShareLink(Post post) {
-        return applicationProperties.getFacebookShareUrl() + "u=" + getURLWithContextPath() + "/" + post.getUrl()
-                + "&t=" + encode(post.getTitle());
+        return properties.getFacebookShareUrl() + "u=" + getURLWithContextPath() + "/" + post.getUrl() + "&t="
+                + encode(post.getTitle());
     }
 
     private String getLinkedInShareLink(Post post) {
-        return applicationProperties.getLinkedinShareUrl() + "title=" + encode(post.getTitle()) + "&url="
-                + getURLWithContextPath() + "/" + post.getUrl();
+        return properties.getLinkedinShareUrl() + "title=" + encode(post.getTitle()) + "&url=" + getURLWithContextPath()
+                + "/" + post.getUrl();
     }
 
     // TODO; make it dynamic
@@ -91,11 +88,6 @@ public class PostsResponseMapper {
     }
 
     private static String encode(String str) {
-        try {
-            return URLEncoder.encode(str, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            log.error(e.getMessage(), e);
-            return "";
-        }
+        return URLEncoder.encode(str, StandardCharsets.UTF_8);
     }
 }

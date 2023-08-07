@@ -12,7 +12,6 @@ import com.sivalabs.jblogger.repositories.PageViewRepository;
 import com.sivalabs.jblogger.repositories.PostRepository;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,20 +29,19 @@ public class PostService {
     private final CommentRepository commentRepository;
     private final PageViewRepository pageViewRepository;
     private final PostsResponseMapper postsResponseMapper;
-    private final ApplicationProperties applicationProperties;
+    private final ApplicationProperties properties;
 
-    @Autowired
     public PostService(
             PostRepository postRepository,
             CommentRepository commentRepository,
             PageViewRepository pageViewRepository,
             PostsResponseMapper postsResponseMapper,
-            ApplicationProperties applicationProperties) {
+            ApplicationProperties properties) {
         this.postRepository = postRepository;
         this.commentRepository = commentRepository;
         this.pageViewRepository = pageViewRepository;
         this.postsResponseMapper = postsResponseMapper;
-        this.applicationProperties = applicationProperties;
+        this.properties = properties;
     }
 
     public List<PostDTO> findAllPosts() {
@@ -66,7 +64,7 @@ public class PostService {
 
     private Pageable getPageRequest(Integer pageNo) {
         Sort sort = Sort.by(Direction.DESC, CREATED_ON);
-        int pageSize = applicationProperties.getPostsPerPage();
+        int pageSize = properties.getPostsPerPage();
         if (pageNo == null || pageNo < 1) pageNo = 1;
         return PageRequest.of(pageNo - 1, pageSize, sort);
     }

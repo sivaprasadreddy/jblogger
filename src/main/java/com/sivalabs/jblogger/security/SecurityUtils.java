@@ -14,8 +14,4 @@ public class SecurityUtils {
         }
         return null;
     }
-
-    public static boolean isLoggedIn() {
-        return getCurrentUser() != null;
-    }
 }
