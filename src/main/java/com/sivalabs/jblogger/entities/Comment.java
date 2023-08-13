@@ -10,10 +10,7 @@ import lombok.Data;
 @Entity
 @Table(name = "COMMENTS")
 @Data
-public class Comment implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Comment extends Base  implements Serializable {
 
     @Column(name = "name", nullable = false, length = 150)
     @NotEmpty
@@ -27,12 +24,6 @@ public class Comment implements Serializable {
     @Column(name = "content", nullable = false)
     @NotEmpty
     private String content;
-
-    @Column(name = "created_on")
-    private LocalDateTime createdOn = LocalDateTime.now();
-
-    @Column(name = "updated_on")
-    private LocalDateTime updatedOn;
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)

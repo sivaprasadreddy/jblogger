@@ -12,10 +12,7 @@ import lombok.Data;
 @Entity
 @Table(name = "POSTS")
 @Data
-public class Post implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Post extends Base implements Serializable {
 
     @Column(name = "title", nullable = false, length = 150)
     @NotEmpty
@@ -35,12 +32,6 @@ public class Post implements Serializable {
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
-
-    @Column(name = "created_on")
-    private LocalDateTime createdOn = LocalDateTime.now();
-
-    @Column(name = "updated_on")
-    private LocalDateTime updatedOn;
 
     @Column(name = "view_count")
     private Long viewCount = 0L;
