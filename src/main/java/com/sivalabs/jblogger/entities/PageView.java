@@ -8,11 +8,7 @@ import lombok.Data;
 @Entity
 @Table(name = "pageviews")
 @Data
-public class PageView implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class PageView extends Base implements Serializable {
     private String url;
 
     private String referrer;

@@ -9,11 +9,7 @@ import lombok.Data;
 @Entity
 @Table(name = "TAGS")
 @Data
-public class Tag implements Serializable, Comparable<Tag> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Tag extends Base implements Serializable, Comparable<Tag> {
 
     @Column(name = "label", unique = true, nullable = false, length = 150)
     private String label;

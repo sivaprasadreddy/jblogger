@@ -12,11 +12,7 @@ import lombok.Data;
 @Entity
 @Table(name = "users")
 @Data
-public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class User extends Base implements Serializable {
     @Column(nullable = false)
     @NotEmpty()
     private String name;
